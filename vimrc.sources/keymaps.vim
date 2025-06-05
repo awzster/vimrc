@@ -1,0 +1,95 @@
+" ALE toggle
+nmap ;e :ALEToggle<cr>
+
+" Быстрые команды
+nmap <leader>q :NERDTreeToggle<CR>
+nmap <leader>t :call TrimWhitespace()<CR>
+nmap <leader>s :so ~/.vimrc<CR>
+nmap <silent> <leader><leader> :noh<CR>
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+nnoremap Q a<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+
+" Буферы и вкладки
+map <S-left> :bp<cr>
+nmap <S-left> :bp<cr>
+imap <S-left> <ESC>:bp<cr>i
+map <S-right> :bn<cr>
+nmap <S-right> :bn<cr>
+imap <S-right> <ESC>:bn<cr>i
+map <C-Tab> :bn<cr>
+nmap <C-Tab> :bn<cr>
+imap <C-Tab> <ESC>:bn<cr>i
+
+" Вырезать-копировать-вставить через Ctrl
+vnoremap <C-X> "+x
+vnoremap <C-C> "+y
+
+" Домашние клавиши
+noremap <home> <S-^>
+inoremap <home> <Esc> <S-^> I
+
+noremap <C-BS> db
+inoremap <C-BS> <Esc>dbi
+
+imap <F2> <Esc> <C-O>vae
+nmap <F2> vae
+
+inoremap <C-Del> <Esc>cw
+noremap <C-Del> cw
+
+imap <C-F3> <Esc>*
+nmap <C-F3> *
+
+imap <C-'> <C-X><C-O>
+
+" Быстрое выделение последнего вставленного текста
+nnoremap <expr> <leader>p '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" Быстрое удаление без копирования
+nnoremap s "_d
+nnoremap ss "_dd
+
+" Переключение между табами Airline
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+
+nmap <F4> :e ~/.vimrc<cr>
+nmap <F2> bve
+nnoremap <silent> <F9> :TlistToggle<CR>
+nnoremap <F8> Go<Esc>O<Esc>:put =strftime(\"%d/%m/%y %H:%M:%S\")<cr>o<Esc>o<Esc>:w<cr>
+nmap <C-Z> :undo<cr>
+imap <C-Z> <Esc> :undo<cr>
+vnoremap // y/<C-R>"<CR>
+
+"COC
+" Вызов меню автодополнения вручную
+inoremap <C-n> <C-n>
+inoremap <C-p> <C-p>
+
+" Подтверждение выбора (Enter)
+inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" Переход к определению, типу, ссылкам и диагностике
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Переименование
+nmap <leader>rn <Plug>(coc-rename)
+
+" Форматирование кода
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+"autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
+
+"COC
+inoremap <expr> <C-n> coc#refresh()

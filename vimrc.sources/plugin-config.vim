@@ -47,8 +47,8 @@ let g:ale_linters_explicit = 1
 let g:ale_hover_to_floating_preview = 0
 let g:ale_virtualtext_cursor = 'disabled'
 let g:ale_css_prettier_options = '--tab-width 2 --single-quote --no-semi'
-let g:ale_fixers = {'javascript': ['eslint'], 'json': ['fixjson'], 'html': ['prettier'], 'css': ['prettier']}
-let g:ale_linters = {'javascript': ['eslint'], 'json': ['fixjson'], 'html': [], 'css': []}
+let g:ale_fixers = {'javascript': ['eslint'], 'json': ['fixjson'], 'html': ['htmlhint'], 'css': ['stylelint']}
+let g:ale_linters = {'javascript': ['eslint'], 'json': ['fixjson'], 'html': ['prettier'], 'css': ['prettier']}
 
 "COC
 let g:coc_enable_auto_popup = 0

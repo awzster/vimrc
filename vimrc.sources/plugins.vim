@@ -5,7 +5,7 @@ Plug 'tpope/vim-surround'
 Plug 'gregsexton/MatchTag'
 Plug 'Raimondi/delimitMate'
 Plug 'othree/xml.vim'
-Plug 'mattn/emmet-vim'
+"Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -19,4 +19,5 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 
 call plug#end()
+
 

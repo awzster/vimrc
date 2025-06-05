@@ -6,15 +6,23 @@
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
+    "html",
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
   "coc.preferences.formatOnSaveFiletypes": [
+    "html",
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ]
+},
+{
+  "tsserver.enable": true,
+  "tsserver.formatOnType": true,
+  "tsserver.log": "verbose",
+  "suggest.autoTrigger": "none"
 }

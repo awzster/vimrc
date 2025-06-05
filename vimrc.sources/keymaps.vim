@@ -2,13 +2,19 @@
 nmap ;e :ALEToggle<cr>
 
 " Быстрые команды
-nmap <leader>q :NERDTreeToggle<CR>
 nmap <leader>t :call TrimWhitespace()<CR>
 nmap <leader>s :so ~/.vimrc<CR>
 nmap <silent> <leader><leader> :noh<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 nnoremap Q a<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+
+nmap ;d : call DeployCurrentBuffer()<cr><esc>
+nmap ;l :silent call MergeCurrentBuffer()<cr>:redraw<cr>
+nmap ;a :call MergeAllBuffers()<cr>
+"nmap ;t :set noexpandtab<cr>:retab!<cr>
+nmap ;t :call TabToSpace()<cr>
+nmap ;s :set expandtab<cr>
 
 " Буферы и вкладки
 map <S-left> :bp<cr>
@@ -89,7 +95,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " Форматирование кода
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-"autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
+autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
 
 "COC
-inoremap <expr> <C-n> coc#refresh()
+inoremap <expr> <C-p> coc#refresh()

@@ -99,3 +99,12 @@ autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
 
 "COC
 inoremap <expr> <C-p> coc#refresh()
+
+" Вызов code action на курсоре
+nmap <leader>ac <Plug>(coc-codeaction-cursor)
+
+" Вызов code action на выделенном диапазоне
+xmap <leader>ac <Plug>(coc-codeaction-selected)
+
+" Вызов всех code actions для текущего буфера
+nmap <leader>as <Plug>(coc-codeaction-source)

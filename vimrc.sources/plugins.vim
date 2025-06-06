@@ -13,10 +13,11 @@ Plug 'osyo-manga/vim-anzu'
 "Plug 'int3/vim-taglist-plus'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'kshenoy/vim-signature'
-Plug 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
 "Plug 'mvolkmann/vim-js-arrow-function'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
+Plug 'brooth/far.vim'
 
 call plug#end()
 

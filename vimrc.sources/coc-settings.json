@@ -4,9 +4,10 @@
 
   "eslint.enable": true,
   "eslint.packageManager": "npm",
-  "eslint.options": {
-    "overrideConfigFile": "/home/za/.eslintrc.js"
-  },
+
+  "eslint.experimental": { "useFlatConfig": true },
+  "eslint.options": { "overrideConfigFile": "/home/za/eslint.config.js" },
+
   "eslint.probe": [
     "javascript",
     "javascriptreact",

@@ -109,3 +109,9 @@ xmap <leader>ac <Plug>(coc-codeaction-selected)
 " Вызов всех code actions для текущего буфера
 nmap <leader>as <Plug>(coc-codeaction-source)
 
+" Форматирование всего файла через ESLint autofix
+nnoremap <silent> <Leader>jf :CocCommand eslint.executeAutofix<CR>
+
+" Форматирование выделенного текста через ESLint autofix
+xnoremap <silent> <Leader>jf :<C-u>CocCommand eslint.executeAutofix<CR>
+

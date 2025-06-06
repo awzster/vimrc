@@ -95,10 +95,10 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " Форматирование кода
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
+"autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
 
 "COC
-inoremap <expr> <C-p> coc#refresh()
+inoremap <expr> <C-n> coc#refresh()
 
 " Вызов code action на курсоре
 nmap <leader>ac <Plug>(coc-codeaction-cursor)
@@ -108,3 +108,4 @@ xmap <leader>ac <Plug>(coc-codeaction-selected)
 
 " Вызов всех code actions для текущего буфера
 nmap <leader>as <Plug>(coc-codeaction-source)
+

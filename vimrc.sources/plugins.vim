@@ -18,6 +18,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 Plug 'brooth/far.vim'
+"Plug 'maksimr/vim-jsbeautify'
 
 call plug#end()
 

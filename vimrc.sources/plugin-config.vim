@@ -88,12 +88,12 @@ let g:far#mapping_accept = '<C-y>'
 "       \ '**/*.min.js'
 "       \ ]
 let g:far#ignore_files = [
-      \ 'tags',               " Исключить файл tags в текущей папке
-      \ '**/node_modules/**', " Исключить node_modules
-      \ '**/.git/**',         " Исключить .git
-      \ '**/dist/**',         " Исключить папку сборки
-      \ '*.swp',              " Исключить vim swap
-      \ '*.min.js'            " Исключить минифицированные файлы
+      \ 'tags',
+      \ '**/node_modules/**',
+      \ '**/.git/**',
+      \ '**/dist/**',
+      \ '*.swp',
+      \ '*.min.js'
       \ ]
 
 " let g:far#source_options = {
@@ -106,7 +106,10 @@ let g:far#source_options = {
 nnoremap <leader>fr :Far 
 nnoremap <leader>rp :Fardo<CR>
 
+"autocmd BufWritePre *.js :JsBeautify
+
 " Общие параметры
+set noswapfile
 set tabstop=2
 set noexpandtab
 set shiftwidth=2

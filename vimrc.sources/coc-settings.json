@@ -1,33 +1,27 @@
 {
-  "suggest.autoTrigger": "none"
-},
-{
+  "suggest.autoTrigger": "",
+  "eslint.nodePath": "/home/za/.nvm/versions/node/v24.1.0/bin/node",
+
   "eslint.enable": true,
-  "eslint.run": "onSave",
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "html",
+  "eslint.packageManager": "npm",
+  "eslint.options": {
+    "overrideConfigFile": "/home/za/.eslintrc.js"
+  },
+  "eslint.probe": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
-  "coc.preferences.formatOnSaveFiletypes": [
-    "html",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
-},
-{
+
   "tsserver.enable": true,
   "tsserver.formatOnType": true,
   "tsserver.log": "verbose",
-  "suggest.autoTrigger": "none"
-},
-{
+  "suggest.autoTrigger": "none",
   "deno.enable": true,
   "deno.import_map": "./import_map.json",
-  "html.deno.import_map": "./import_map.json"
+  "html.deno.import_map": "./import_map.json",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

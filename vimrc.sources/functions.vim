@@ -10,6 +10,18 @@ function! DeployCurrentBuffer()
   :bd
 endfunction
 
+function! NrBufs()
+  let i = bufnr('$')
+  let j = 0
+  while i >= 1
+    if buflisted(i)
+      let j+=1
+    endif
+    let i-=1
+  endwhile
+  return j
+endfunction
+
 function! MergeCurrentBuffer()
   update
   exec 'AsyncRun copy2dev.sh %:t %:p:h'

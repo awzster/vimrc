@@ -92,7 +92,7 @@ XPT ng-select
 
 
 XPT ng-input
-<input class="form-control" type="search" ng-model="`cursor^"></input>
+<input class="form-control" type="search" ng-model="`cursor^"/>
 
 XPT button
 <button class="btn btn-`default^" type="button" ng-click="vm.`action^()">`text here^</button>

@@ -66,7 +66,7 @@ nnoremap <F9> :Vista!!<CR>
 let g:far#source = 'rg'       " Использовать ripgrep для скорости
 let g:far#file_mask = '**/*.{js,html,ts,css}' " Расширения файлов
 " Пропустить текущую строку при --ask
-let g:far#mapping_skip = '<C-n>'
+"let g:far#mapping_skip = '<C-n>'
 
 " Подтвердить текущую строку при --ask
 let g:far#mapping_accept = '<C-y>'
@@ -105,6 +105,8 @@ let g:far#source_options = {
 " Горячие клавиши
 nnoremap <leader>fr :Far 
 nnoremap <leader>rp :Fardo<CR>
+
+let g:matchup_matchparen_offscreen = {'method': 'popup'}
 
 "autocmd BufWritePre *.js :JsBeautify
 

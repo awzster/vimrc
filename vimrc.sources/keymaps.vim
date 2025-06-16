@@ -77,8 +77,12 @@ vnoremap // y/<C-R>"<CR>
 
 "COC
 " Вызов меню автодополнения вручную
-inoremap <C-n> <C-n>
-inoremap <C-p> <C-p>
+"inoremap <C-n> <C-n>
+"inoremap <C-p> <C-p>
+
+" Навигация по выпадающему меню автодополнения
+inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : coc#refresh()
+inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>"
 
 " Подтверждение выбора (Enter)
 inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"

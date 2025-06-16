@@ -2,7 +2,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'drmingdrmer/xptemplate'
 Plug 'tpope/vim-surround'
-Plug 'gregsexton/MatchTag'
+"Plug 'gregsexton/MatchTag'
+Plug 'alvan/vim-closetag'
+Plug 'andymass/vim-matchup'
 Plug 'Raimondi/delimitMate'
 Plug 'othree/xml.vim'
 "Plug 'mattn/emmet-vim'

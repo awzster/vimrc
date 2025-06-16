@@ -124,5 +124,4 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 # Load Angular CLI autocompletion.
 # source <(ng completion script)
-
-alias vimn="gvim -N -u /home/za/.vimrcnew"
+export HTMLHINTRC=~/.htmlhintrc

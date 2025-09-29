@@ -1,6 +1,4 @@
 // ~/.eslint.config.cjs
-const globals = require('globals');
-
 module.exports = [
   {
     files: ['**/*.js'],
@@ -8,37 +6,43 @@ module.exports = [
       ecmaVersion: 2022,
       sourceType: 'module',
       globals: {
-        // Стандартные глобальные переменные
-        ...globals.browser,
-        ...globals.node,
-        // Ваши AngularJS-зависимости
-        angular: 'readonly',
+        // Браузерные глобальные
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        location: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
+        alert: 'readonly',
+        confirm: 'readonly',
+        prompt: 'readonly',
+
+        // jQuery
         $: 'readonly',
         jQuery: 'readonly',
-        moment: 'readonly',
-        gridStateToolPanel: 'readonly',
-        // Добавьте сюда другие глобальные переменные из ваших проектов при необходимости
+
+        _: 'readonly',
+        angular: 'readonly',
       },
     },
-    plugins: {
-      // Подключаем плагин по имени — ESLint найдёт его в node_modules (включая глобальные)
-      '@stylistic': '@stylistic/eslint-plugin-js',
-    },
     rules: {
-      // ========= Форматирование (стиль) — через @stylistic =========
-      '@stylistic/brace-style': ['error', 'allman', { allowSingleLine: true }],
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/semi': ['error', 'always'],
-      '@stylistic/quotes': ['error', 'single'],
+      // Стиль скобок — Allman
+      'brace-style': ['error', 'allman'],
 
-      // ========= Логические правила =========
-      'no-undef': 'error',
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'eqeqeq': ['error', 'always'],
-      'no-var': 'error',
-      'prefer-const': 'error',
-      'no-console': 'warn',
-      'no-debugger': 'error',
-    },
-  },
+      // Пробелы внутри { } и [ ]
+      'object-curly-spacing': ['error', 'always'],
+      'array-bracket-spacing': ['error', 'always'],
+
+      // Отступы и пунктуация
+      'indent': ['error', 2],
+      'semi': ['error', 'always'],
+      'quotes': ['error', 'single'],
+
+      // ✅ Замена let → const, где возможно
+      'prefer-const': 'error'
+    }
+  }
 ];

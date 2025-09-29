@@ -135,7 +135,6 @@ require("lazy").setup({
 --   end,
 -- },
 
-
 {
   "stevearc/conform.nvim",
   event = "VeryLazy",
@@ -146,15 +145,24 @@ require("lazy").setup({
         javascriptreact = { "eslint_d" },
         js = { "eslint_d" },
         jsx = { "eslint_d" },
+        -- Опционально: добавьте другие языки
+        -- typescript = { "eslint_d" },
+        -- typescriptreact = { "eslint_d" },
+        -- json = { "prettier" },
+        -- html = { "prettier" },
+        -- css = { "prettier" },
       },
       format_on_save = {
         timeout_ms = 2000,
         lsp_fallback = true,
       },
+      -- Не нужно переопределять eslint_d — он встроен в conform
     })
   end,
 },
 
+{ "williamboman/mason.nvim" },
+{ "neovim/nvim-lspconfig" },
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim", "nvim-lspconfig" },

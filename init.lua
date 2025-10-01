@@ -34,17 +34,31 @@ require("lazy").setup({
   { "osyo-manga/vim-anzu" },
   { "skywind3000/asyncrun.vim" },
   { "kshenoy/vim-signature" },
-  { "liuchengxu/vista.vim" },
+  --{ "liuchengxu/vista.vim" },
   { "brooth/far.vim" },
+
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "sainnhe/everforest", lazy = false, priority = 1000 },
+  { "sainnhe/gruvbox-material", lazy = false, priority = 1000 },
+  { "tanvirtin/monokai.nvim", lazy = false, priority = 1000 },
+
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
+    "stevearc/aerial.nvim",
+    opts = {},
     config = function()
-      require("catppuccin").setup({ flavour = "mocha" })
-      vim.cmd("colorscheme catppuccin")
-    end
+      require("aerial").setup({
+        filter_kind = { "Function" },
+        attach_mode = "global",     -- показывать outline во всех буферах
+        layout = { min_width = 28 }, -- ширина панели
+        show_guides = true,         -- визуальные отступы для вложенности
+        filter_kind = false,        -- показывать все символы (функции, классы, переменные)
+      })
+      -- Открыть/закрыть по F9
+      vim.keymap.set("n", "<F9>", "<cmd>AerialToggle<cr>", { desc = "Toggle outline" })
+    end,
+    dependencies = { "nvim-treesitter/nvim-treesitter" }
   },
 
   {
@@ -67,74 +81,63 @@ require("lazy").setup({
         },
         tabline = {
           lualine_a = { 'buffers' },
-          lualine_z = { 'tabs' }
+          --lualine_z = { 'tabs' }
         },
         extensions = { 'quickfix', 'nvim-tree' }
       })
     end
   },
-
  
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
   { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }, -- компактные ошибки под строкой
 
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip" },
-  --   config = function()
-  --     local cmp = require("cmp")
-  --     cmp.setup({
-  --       snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
-  --       sources = { { name = "nvim_lsp" } },
-  --       mapping = cmp.mapping.preset.insert({
-  --         ["<Down>"] = cmp.mapping.select_next_item(),
-  --         ["<Up>"] = cmp.mapping.select_prev_item(),
-  --         ["<CR>"] = cmp.mapping.confirm({ select = true }),
-  --       }),
-  --     })
-  --   end,
-  -- },
-
   {
-	  "sainnhe/everforest",
-	  lazy = false,
-	  priority = 1000,
-	  config = function()
-		  vim.cmd("colorscheme everforest")
-	  end,
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
+    "L3MON4D3/LuaSnip",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
   },
-  {
-	  "sainnhe/gruvbox-material",
-	  lazy = false,
-	  priority = 1000,
-	  config = function()
-		  vim.cmd("colorscheme gruvbox-material")
-	  end,
-  },
-  {
-	  "tanvirtin/monokai.nvim",
-	  lazy = false,
-	  priority = 1000,
-	  config = function()
-		  vim.cmd("colorscheme monokai")
-	  end,
-  },
+  config = function()
+    local cmp = require("cmp")
 
-  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000,
-  -- config = function()
-  --   require("catppuccin").setup({ flavour = "mocha" }) -- или "macchiato"
-  --   vim.cmd("colorscheme catppuccin")
-  --   end
-  -- },
--- {
---   "tanvirtin/monokai.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     vim.cmd("colorscheme monokai")
---   end,
--- },
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          require("luasnip").lsp_expand(args.body)
+        end,
+      },
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },  -- ← без option!
+        { name = "path" },
+      }),
+      mapping = cmp.mapping.preset.insert({
+        ["<C-p>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            cmp.complete()
+          end
+        end),
+        ["<C-n>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            cmp.complete()
+          end
+        end),
+        ["<Down>"] = cmp.mapping.select_next_item(),
+        ["<Up>"] = cmp.mapping.select_prev_item(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      }),
+    })
+  end,
+},
 
+  
 {
   "stevearc/conform.nvim",
   event = "VeryLazy",
@@ -215,6 +218,25 @@ for i = 1, 9 do
     end
   end, { desc = "Switch to buffer #" .. i })
 end
+
+-- Toggle LSP diagnostics
+local diagnostics_enabled = true
+
+local function toggle_diagnostics()
+  diagnostics_enabled = not diagnostics_enabled
+  if diagnostics_enabled then
+    vim.diagnostic.show()
+    vim.notify("Diagnostics: ON", vim.log.levels.INFO, { title = "LSP" })
+  else
+    vim.diagnostic.hide()
+    vim.notify("Diagnostics: OFF", vim.log.levels.WARN, { title = "LSP" })
+  end
+end
+
+vim.keymap.set("n", "<Leader>d", toggle_diagnostics, { desc = "Toggle diagnostics" })
+
+-- Маппинг
+vim.cmd("colorscheme gruvbox-material")
 
 --
 -- Автозакрытие скобок, кавычек и т.д.

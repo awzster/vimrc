@@ -9,13 +9,6 @@ let delimitMate_expand_space = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
 let b:delimitMate_insert_eol_marker = 1
 
-
-" Фильтровать, показывая только функции и методы
-let g:vista#renderer#filter_kind = ['Function', 'Method']
-
-" Открыть панель Vista по клавише F9
-nnoremap <F9> :Vista!!<CR>
-
 " Для Far.vim
 let g:far#source = 'rg'       " Использовать ripgrep для скорости
 let g:far#file_mask = '**/*.{js,html,ts,css}' " Расширения файлов
@@ -67,12 +60,9 @@ let g:matchup_matchparen_offscreen = {'method': 'popup'}
 " Общие параметры
 set noswapfile
 set tabstop=2
-set noexpandtab
 set shiftwidth=2
 set wildmenu
 set nowrap
-syntax on
-filetype on
 set showcmd
 set tabpagemax=15
 set breakindent
@@ -93,9 +83,6 @@ set ai
 set cin
 set lz
 set selectmode=
-set encoding=utf-8
-set fileencoding=utf-8
-":set termencoding=utf-8
 set background=dark
 "let g:vim_monokai_tasty_italic = 1
 "colorscheme vim-monokai-tasty
@@ -110,11 +97,11 @@ set pastetoggle=
 set mouse=a
 set matchpairs+=<:>
 set autoread
-set t_Co=256
 set list
 set listchars=tab:>-,trail:-
 highlight SpellBad ctermfg=Black ctermbg=Red
-set completeopt=menu
+"set completeopt=menu
+set completeopt=menu,menuone,noselect
 set history=10000
 set undodir=~/.config/nvim/undo/
 set undofile
@@ -134,7 +121,7 @@ set foldmethod=indent
 set foldcolumn=1
 let javaScript_fold=2
 set foldlevelstart=99
-set complete=.,b,u,t,i
+"set complete=.,b,u,t,i
 "set omnifunc=ale#completion#OmniFunc
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
@@ -161,4 +148,4 @@ setlocal selection=inclusive
 setlocal selectmode&
 
 " Не переопределяем поведение мыши
-nnoremap <buffer> <2-LeftMouse> <C-LeftMouse>
+"nnoremap <buffer> <2-LeftMouse> <C-LeftMouse>

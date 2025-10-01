@@ -74,12 +74,3 @@ if has("autocmd")
     autocmd! bufwritepost $MYVIMRC source $MYVIMRC
 endif
 
-autocmd User XPTemplateExpansionDone call s:move_to_cursor_marker()
-function! s:move_to_cursor_marker()
-    let l:pos = searchpos('__CURSOR__', 'n')
-    if l:pos[0] > 0
-        call cursor(l:pos[0], l:pos[1])
-        normal! "_diw
-    endif
-endfunction
-

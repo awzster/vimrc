@@ -58,7 +58,7 @@ nnoremap ss "_dd
 
 nmap <F4> :e ~/.vimrc<cr>
 nmap <F2> bve
-nnoremap <silent> <F9> :TlistToggle<CR>
+"nnoremap <silent> <F9> :TlistToggle<CR>
 nnoremap <F8> Go<Esc>O<Esc>:put =strftime(\"%d/%m/%y %H:%M:%S\")<cr>o<Esc>o<Esc>:w<cr>
 nmap <C-Z> :undo<cr>
 imap <C-Z> <Esc> :undo<cr>
@@ -72,43 +72,4 @@ inoremap <C-p> <C-p>
 " Навигация по выпадающему меню автодополнения
 inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : "\<C-n>" 
 inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>"
-
-" Подтверждение выбора (Enter)
-"inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
-" Переход к определению, типу, ссылкам и диагностике
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gr <Plug>(coc-references)
-"nmap <silent> [g <Plug>(coc-diagnostic-prev)
-"nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Переименование
-"nmap <leader>rn <Plug>(coc-rename)
-
-" Форматирование кода
-"command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-"command! -nargs=* StyleFix :!stylelint --fix --config ~/.vim/.stylelintrc.json %
-"autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :call CocAction('format')
-
-"COC
-"inoremap <expr> <C-n> coc#refresh()
-
-" Вызов code action на курсоре
-"nmap <leader>ac <Plug>(coc-codeaction-cursor)
-
-" Вызов code action на выделенном диапазоне
-"xmap <leader>ac <Plug>(coc-codeaction-selected)
-
-" Вызов всех code actions для текущего буфера
-"nmap <leader>as <Plug>(coc-codeaction-source)
-
-" Форматирование всего файла через ESLint autofix
-"nnoremap <silent> <Leader>jf :CocCommand eslint.executeAutofix<CR>
-" Форматирование выделенного текста через ESLint autofix
-"xnoremap <silent> <Leader>jf :<C-u>CocCommand eslint.executeAutofix<CR>
-
-"nnoremap <silent> <Leader>hf :CocCommand prettier.formatFile<CR>
-
-"autocmd BufWritePre *.css :silent! :CocCommand stylelint.executeAutofix
 

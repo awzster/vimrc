@@ -365,6 +365,12 @@ require("lazy").setup({
           end,
         },
       })
+
+      vim.lsp.config.ts_ls = {
+        settings = {
+          documentSymbols = { includeSourceFiles = true }
+        }
+      }
     end,
   },
 

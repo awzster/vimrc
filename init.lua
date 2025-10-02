@@ -1,8 +1,13 @@
 -- ~/.config/nvim/init.lua
 
--- 1. Настройка PATH
-local nvm_bin = os.getenv("HOME") .. "/.nvm/versions/node/v24.1.0/bin"
-vim.env.PATH = nvm_bin .. ":" .. (vim.env.PATH or "")
+-- 1) PATH под nvm (ищем последний Node в ~/.nvm/versions/node/*/bin)
+local home = os.getenv("HOME")
+local handle = io.popen('bash -lc "ls -d ' .. home .. '/.nvm/versions/node/*/bin 2>/dev/null | sort -V | tail -n1"')
+local nvm_bin = handle and handle:read("*l") or nil
+if handle then handle:close() end
+if nvm_bin and #nvm_bin > 0 then
+  vim.env.PATH = nvm_bin .. ":" .. (vim.env.PATH or "")
+end
 
 -- Кастомный компонент: "[bufnr] filename"
 local filename_with_bufnr = function()
@@ -13,18 +18,24 @@ local filename_with_bufnr = function()
 end
 
 local char_code = function()
-  local col = vim.fn.col(".")        -- текущая колонка (1-based)
-  local line = vim.fn.getline(".")   -- текущая строка
-  if col <= #line then
-    local char = line:sub(col, col)
-    local code = string.byte(char)
-    -- Можно отображать в десятичном (10) или шестнадцатеричном (0xA) виде
-    return string.format("U+%04X", code)  -- например: U+0041
-    -- Или: return tostring(code)        -- например: 65
-  else
-    -- На пустом месте (после конца строки)
-    return "U+0020"  -- пробел, или можно ""
+  -- local col = vim.fn.col(".")        -- текущая колонка (1-based)
+  -- local line = vim.fn.getline(".")   -- текущая строка
+  -- if col <= #line then
+  --   local char = line:sub(col, col)
+  --   local code = string.byte(char)
+  --   return string.format("U+%04X", code)
+  -- else
+  --   return "U+0020"
+  -- end
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))       -- 1-based
+  local line = vim.api.nvim_get_current_line()
+  -- Индекс байта на позицию курсора (0-based → 1-based)
+  local byteidx = vim.str_byteindex(line, col - 1) + 1
+  local cp = utf8.codepoint(line, byteidx)
+  if cp then
+    return string.format("U+%04X", cp)
   end
+  return ""
 end
 
 -- 2. Установка lazy.nvim
@@ -42,9 +53,9 @@ require("lazy").setup({
   { "alvan/vim-closetag" },
   { "andymass/vim-matchup" },
   { "Raimondi/delimitMate" },
-  { "othree/xml.vim" },
-  { "othree/html5.vim" },
-  { "pangloss/vim-javascript" },
+  --{ "othree/xml.vim" },
+  --{ "othree/html5.vim" },
+  --{ "pangloss/vim-javascript" },
   { "osyo-manga/vim-anzu" },
   { "skywind3000/asyncrun.vim" },
   { "kshenoy/vim-signature" },
@@ -58,123 +69,13 @@ require("lazy").setup({
   { "sainnhe/gruvbox-material", lazy = false, priority = 1000 },
   { "tanvirtin/monokai.nvim", lazy = false, priority = 1000 },
 
-{
-  "stevearc/aerial.nvim",
-  dependencies = {
-    "nvim-tree/nvim-web-devicons", -- для иконок (опционально, но рекомендуется)
-  },
-  opts = {
-    -- Прикреплять aerial к каждому окну (а не глобально)
-    attach_mode = "window",
-
-    -- Вид панели: 'right', 'left', или 'float'
-    layout = {
-      default_direction = "right",
-      max_width = 40,
-      min_width = 20,
-      width = 0.2, -- 20% ширины окна
-    },
-
-    -- Источники: LSP приоритетнее, fallback на Treesitter
-    backends = { "lsp", "treesitter", "markdown" },
-
-    -- Показывать направляющие для вложенности
-    show_guides = true,
-    guide_color = "Comment",
-
-    -- Фильтрация: показывать только функции и классы (убери, если хочешь всё)
-    -- filter_kind = { "Function", "Method", "Class", "Constructor" },
-
-    -- Иконки (требуется nvim-web-devicons)
-    icons = {
-      ["Class"] = "",
-      ["Constructor"] = "",
-      ["Enum"] = "",
-      ["Field"] = "",
-      ["Function"] = "",
-      ["Interface"] = "",
-      ["Method"] = "",
-      ["Namespace"] = "",
-      ["Package"] = "",
-      ["Property"] = "",
-      ["Struct"] = "",
-      ["Variable"] = "",
-      ["Module"] = "",
-    },
-
-    -- Горячие клавиши внутри панели aerial
-    keymaps = {
-      ["?"] = "actions.show_help",
-      ["g?"] = "actions.show_help",
-      ["<CR>"] = "actions.jump",
-      ["<2-LeftMouse>"] = "actions.jump",
-      ["p"] = "actions.scroll",
-      ["["] = "actions.prev",
-      ["]"] = "actions.next",
-      ["{"] = "actions.prev_up",
-      ["}"] = "actions.next_up",
-      ["o"] = "actions.tree_toggle",
-      ["O"] = "actions.tree_toggle_recursive",
-      ["l"] = "actions.tree_open",
-      ["h"] = "actions.tree_close",
-      ["H"] = "actions.tree_close_recursive",
-    },
-
-    -- Не закрывать автоматически
-    close_automatic_events = {},
-  },
-  keys = {
-    -- Переключить панель aerial
-    { "<leader>o", "<cmd>AerialToggle!<cr>", desc = "Toggle Aerial" },
-    -- Навигация по символам БЕЗ открытия панели
-    { "[s", "<cmd>AerialNavPrev<cr>", desc = "Prev symbol" },
-    { "]s", "<cmd>AerialNavNext<cr>", desc = "Next symbol" },
-    { "[S", "<cmd>AerialNavPrevUp<cr>", desc = "Prev root symbol" },
-    { "]S", "<cmd>AerialNavNextUp<cr>", desc = "Next root symbol" },
-  },
-  -- Автоматически открывать aerial при открытии поддерживаемых файлов (опционально)
-  -- config = function(_, opts)
-  --   require("aerial").setup(opts)
-  --   vim.api.nvim_create_autocmd("FileType", {
-  --     pattern = { "lua", "python", "javascript", "typescript", "cpp", "rust" },
-  --     callback = function()
-  --       if not vim.b.aerial_open then
-  --         vim.cmd("AerialOpen")
-  --         vim.b.aerial_open = true
-  --       end
-  --     end,
-  --   })
-  -- end,
-},
-
-  -- {
-  --   "stevearc/aerial.nvim",
-  --   opts = {},
-  --   config = function()
-  --     require("aerial").setup({
-  --       filter_kind = { "Function" },
-  --       attach_mode = "global",     -- показывать outline во всех буферах
-  --       layout = { min_width = 28 }, -- ширина панели
-  --       show_guides = true,         -- визуальные отступы для вложенности
-  --       filter_kind = false,        -- показывать все символы (функции, классы, переменные)
-  --     })
-  --     -- Открыть/закрыть по F9
-  --     vim.keymap.set("n", "<F9>", "<cmd>AerialToggle<cr>", { desc = "Toggle outline" })
-  --   end,
-  --   -- Optional dependencies
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-tree/nvim-web-devicons"
-  --   },
-  -- },
-
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'catppuccin', -- или 'tokyonight', 'kanagawa' и т.д.
+          theme = 'catppuccin',
           section_separators = { left = '', right = '' },
           component_separators = { left = '', right = '' },
         },
@@ -184,49 +85,38 @@ require("lazy").setup({
           lualine_c = { filename_with_bufnr },
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
           lualine_y = { 'progress' },
-          --lualine_z = { 'location' }
-          lualine_z = { 'location', char_code },  -- ← добавили сюда
+          lualine_z = { 'location', char_code },
         },
         tabline = {
-          lualine_a = {}, -- можно оставить пустым или добавить что-то слева
+          lualine_a = {},
           lualine_b = {},
           lualine_c = {
             {
               'buffers',
-              mode = 2, -- показывать все буферы (а не только видимые)
-              max_length = 140, -- опционально: ограничить длину
-              -- Кастомное форматирование каждого буфера:
+              mode = 2,
+              max_length = 140,
               show_buffer_close_icons = false,
               show_filename_only = true,
-              -- Главное — функция `format_buffer_name`:
-              format_buffer_name = function(bufnr)
-                local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
-                if filename == "" then
-                  filename = "[No Name]"
-                end
-                return string.format("[%d %s]", bufnr, filename)
+              fmt = function(name, context)
+                local n = context and context.bufnr or 0
+                if name == "" then name = "[No Name]" end
+                return string.format("[%d %s]", n, vim.fn.fnamemodify(name, ":t"))
               end,
             }
           },
           lualine_x = {},
           lualine_y = {},
           lualine_z = { 'tabs' },
-        }, 
-
-    --    tabline = {
-    --      lualine_a = { filename_with_bufnr },
-    --      lualine_a = { 'buffers' },
-    --      --lualine_z = { 'tabs' }
-    --    },
+        },
         extensions = { 'quickfix', 'nvim-tree', 'aerial' }
       })
     end
   },
- 
+
   {
     "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "nvim-tree/nvim-web-devicons", -- опционально, но рекомендуется
+      "nvim-tree/nvim-web-devicons",
     },
     config = function()
       require("nvim-tree").setup()
@@ -237,14 +127,13 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "nvim-lua/plenary.nvim", -- обязательная зависимость
-      "nvim-tree/nvim-web-devicons", -- для иконок (опционально)
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
     config = function()
       local telescope = require("telescope")
       telescope.setup({
         defaults = {
-          -- Путь к утилитам
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -260,130 +149,195 @@ require("lazy").setup({
         },
       })
 
-      -- Горячие клавиши
       local builtin = require("telescope.builtin")
       vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Buffers" })
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help" })
+      vim.keymap.set("n", "<leader>o", function()
+        require("telescope.builtin").lsp_document_symbols()
+      end, { desc = "Document Symbols" })
     end,
   },
-  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }, -- компактные ошибки под строкой
 
-   {
-   "hrsh7th/nvim-cmp",
-   dependencies = {
-     "hrsh7th/cmp-nvim-lsp",
-     "L3MON4D3/LuaSnip",
-     "hrsh7th/cmp-buffer",
-     "hrsh7th/cmp-path",
-   },
-   config = function()
-     local cmp = require("cmp")
-   
-     cmp.setup({
-       snippet = {
-         expand = function(args)
-           require("luasnip").lsp_expand(args.body)
-         end,
-       },
-       sources = cmp.config.sources({
-         { name = "nvim_lsp" },
-         { name = "luasnip" },
-         { name = "buffer" },  -- ← без option!
-         { name = "path" },
-       }),
-       mapping = cmp.mapping.preset.insert({
-         ["<C-p>"] = cmp.mapping(function()
-           if cmp.visible() then
-             cmp.select_prev_item()
-           else
-             cmp.complete()
-           end
-         end),
-         ["<C-n>"] = cmp.mapping(function()
-           if cmp.visible() then
-             cmp.select_next_item()
-           else
-             cmp.complete()
-           end
-         end),
-         ["<Down>"] = cmp.mapping.select_next_item(),
-         ["<Up>"] = cmp.mapping.select_prev_item(),
-         ["<Tab>"] = cmp.mapping(function(fallback)
-           if cmp.visible() then
-             cmp.confirm({ select = true })
-           else
-             fallback() -- ведёт себя как обычный <Tab> (отступ)
-           end
-         end, { "i", "s" }),         --["<CR>"] = cmp.mapping.confirm({ select = true }),
+  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
 
-       }),
-     })
-   end,
- },
-
-  
-{
-  "stevearc/conform.nvim",
-  event = "VeryLazy",
-  config = function()
-    require("conform").setup({
-      formatters_by_ft = {
-        javascript = { "eslint_d" },
-        javascriptreact = { "eslint_d" },
-        js = { "eslint_d" },
-        jsx = { "eslint_d" },
-        -- Опционально: добавьте другие языки
-        -- typescript = { "eslint_d" },
-        -- typescriptreact = { "eslint_d" },
-        -- json = { "prettier" },
-        -- html = { "prettier" },
-        -- css = { "prettier" },
-      },
-      format_on_save = {
-        timeout_ms = 2000,
-        lsp_fallback = true,
-      },
-      -- Не нужно переопределять eslint_d — он встроен в conform
-    })
-  end,
-},
-
-{ "williamboman/mason.nvim" },
-{ "neovim/nvim-lspconfig" },
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "mason.nvim", "nvim-lspconfig" },
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+    },
     config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "eslint", "html", "cssls", "ts_ls" },
-        handlers = {
-          function(server_name)
-            require("lspconfig")[server_name].setup({})
+      local cmp = require("cmp")
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            require("luasnip").lsp_expand(args.body)
           end,
         },
-      })
+        sources = cmp.config.sources({
+          { name = "nvim_lsp", priority = 7000 },
+          { name = "luasnip", priority = 500 },
+          { name = "buffer", priority = 1000, option = {
+            -- вернём список всех открытых буферов
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end,
+            keyword_length = 3,  -- как обсуждали, чтобы не было шума
+          },
+        },
+          { name = "path", priority = 100 },
+        }),
+        mapping = cmp.mapping.preset.insert({
+          ["<C-p>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              cmp.complete()
+            end
+          end),
+          ["<C-n>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              cmp.complete()
+            end
+          end),
+          ["<Down>"] = cmp.mapping.select_next_item(),
+          ["<Up>"] = cmp.mapping.select_prev_item(),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.confirm({ select = true })
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
 
-      vim.lsp.config.ts_ls = {
-        settings = {
-          documentSymbols = { includeSourceFiles = true }
-        }
+        window = {
+          completion = cmp.config.window.bordered(),       -- список кандидатов
+          documentation = cmp.config.window.bordered(),    -- окно документации справа
+        },
+      })
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          javascript = { "eslint_d" },
+          javascriptreact = { "eslint_d" },
+          typescript = { "eslint_d" },
+          typescriptreact = { "eslint_d" },
+          json = { "prettier" },
+          html = { "prettier" },
+          css = { "prettier" },
+        },
+        format_on_save = {
+          timeout_ms = 2000,
+          lsp_fallback = false,
+        },
+      })
+      local conform = require("conform")
+      conform.formatters.eslint_d = {
+        prepend_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+        cwd = function(_) return vim.env.HOME end,
       }
     end,
   },
 
+  -- Плагины LSP (без конфигурации здесь — конфиг ниже в "LSP core")
+  { "williamboman/mason.nvim" },
+  { "neovim/nvim-lspconfig" },
+  { "williamboman/mason-lspconfig.nvim", dependencies = { "mason.nvim", "nvim-lspconfig" } },
 })  -- ← ЗАКРЫВАЮЩАЯ СКОБКА ТАБЛИЦЫ
 
--- Показывать ошибки справа от кода
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  update_in_insert = false,
-  underline = true,
-  severity_sort = true,
+----------------------------------------------------------------------
+-- LSP core: mason + mason-lspconfig + lspconfig + cmp capabilities --
+----------------------------------------------------------------------
+
+-- 1) Возможности автодополнения от nvim-cmp (важно подключить один раз)
+local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
+
+-- 2) Единый on_attach для всех LSP
+local function on_attach(client, bufnr)
+  if client.name == "ts_ls" then
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end
+  local map = function(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+  end
+  map("n", "gd", vim.lsp.buf.definition, "LSP: Go to definition")
+  map("n", "gr", vim.lsp.buf.references, "LSP: References")
+  map("n", "K",  vim.lsp.buf.hover, "LSP: Hover")
+  map("n", "<leader>rn", vim.lsp.buf.rename, "LSP: Rename")
+  map("n", "<leader>ca", vim.lsp.buf.code_action, "LSP: Code action")
+end
+
+-- 3) Инициализация mason + mason-lspconfig
+require("mason").setup({})
+require("mason-lspconfig").setup({
+  ensure_installed = { "eslint", "html", "cssls", "ts_ls" },
+  handlers = {
+    function(server)
+      require("lspconfig")[server].setup({
+        capabilities = cmp_caps,
+        on_attach = on_attach,
+      })
+    end,
+    ["eslint"] = function()
+      require("lspconfig").eslint.setup({
+        capabilities = cmp_caps,
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+          })
+        end,
+      })
+    end,
+    ["ts_ls"] = function()
+      require("lspconfig").ts_ls.setup({
+        capabilities = cmp_caps,
+        on_attach = on_attach,
+        settings = {
+          javascript = { suggest = { completeFunctionCalls = true } },
+          typescript = { suggest = { completeFunctionCalls = true } },
+        },
+      })
+    end,
+  },
 })
+
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "javascript", "typescript", "tsx", "html", "css", "json", "lua" },
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+  matchup = { enable = true },
+})
+
+-- Инициализация плагина и стартовое состояние
+require("lsp_lines").setup()
+vim.diagnostic.config({ virtual_text = false })
+local lsp_lines_enabled = true
+
+local function toggle_lsp_lines()
+  lsp_lines_enabled = not lsp_lines_enabled
+  vim.diagnostic.config({ virtual_text = not lsp_lines_enabled })
+  require("lsp_lines").toggle()
+  vim.notify("Diagnostics: " .. (lsp_lines_enabled and "lines" or "virtual_text"))
+end
+
+vim.keymap.set("n", "<leader>dl", toggle_lsp_lines, { desc = "Toggle diagnostics lines/text" })
+
 -- 4. ПОДКЛЮЧЕНИЕ ВАШИХ .VIM-ФАЙЛОВ (ВНЕ ТАБЛИЦЫ!)
 vim.cmd("source ~/.config/nvim/src/functions.vim")
 vim.cmd("source ~/.config/nvim/src/keymaps.vim")
@@ -395,16 +349,14 @@ vim.cmd([[
   cnoremap <expr> <Up>   wildmenumode() ? "\<C-p>" : "\<Up>"
 ]])
 
+vim.o.completeopt = "menu,menuone,noselect"
 vim.opt.fileencoding = "utf-8"
-vim.opt.fileencodings = "utf-8,ucs-bom,default,latin1"
-
-vim.env.ESLINT_CONFIG = "/home/za/.eslint.config.cjs"
+vim.opt.fileencodings = "utf-8"
 vim.keymap.set("c", "<S-Insert>", "<C-r>+")
 
 -- Переключение на N-й буфер в списке (1–9) по <Leader> + цифра
 for i = 1, 9 do
   vim.keymap.set("n", "<Leader>" .. i, function()
-    -- Получаем список всех отображаемых буферов (listed = true)
     local bufs = vim.fn.getbufinfo({ buflisted = 1 })
     if bufs[i] then
       vim.cmd("buffer " .. bufs[i].bufnr)
@@ -414,7 +366,6 @@ end
 
 -- Toggle LSP diagnostics
 local diagnostics_enabled = true
-
 local function toggle_diagnostics()
   diagnostics_enabled = not diagnostics_enabled
   if diagnostics_enabled then
@@ -425,8 +376,7 @@ local function toggle_diagnostics()
     vim.notify("Diagnostics: OFF", vim.log.levels.WARN, { title = "LSP" })
   end
 end
-
-vim.keymap.set("n", "<Leader>f", toggle_diagnostics, { desc = "Toggle diagnostics" })
+--vim.keymap.set("n", "<Leader>f", toggle_diagnostics, { desc = "Toggle diagnostics" })
 
 -- Маппинг
 vim.cmd("colorscheme gruvbox-material")
@@ -436,40 +386,31 @@ if vim.fn.has("gui_running") == 1 then
   vim.opt.guifont = "FiraCode Nerd Font Mono:h17"
 end
 
--- Сохраняем позицию ВСЕХ буферов при выходе из Neovim
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  callback = function()
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-      if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buflisted then
-        local cursor = vim.api.nvim_win_get_cursor(0)
-        -- Но! Нужно найти окно, где этот буфер активен
-        local win = nil
-        for _, w in ipairs(vim.api.nvim_list_wins()) do
-          if vim.api.nvim_win_get_buf(w) == bufnr then
-            win = w
-            break
-          end
-        end
-        if win then
-          local cursor = vim.api.nvim_win_get_cursor(win)
-          pcall(vim.api.nvim_buf_set_mark, bufnr, '"', cursor[1], cursor[2] - 1, {})
-        end
+-- Настроить, что именно сохранять: курсор, свёртки, локальные опции
+vim.opt.viewoptions = { "cursor", "folds" }
+
+-- Сохраняем «вид» при выходе из окна
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  callback = function(args)
+    local buf = args.buf
+    if vim.bo[buf].buftype ~= "" then return end
+    pcall(vim.cmd, "silent! mkview")
+  end,
+})
+
+-- Восстанавливаем «вид» при входе в окно (с фолбэком на метку '"')
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  callback = function(args)
+    local buf = args.buf
+    if vim.bo[buf].buftype ~= "" then return end
+    if not pcall(vim.cmd, "silent loadview") then
+      local mark = vim.api.nvim_buf_get_mark(buf, '"')
+      local lnum, col = mark[1], mark[2]
+      local last = vim.api.nvim_buf_line_count(buf)
+      if lnum > 0 and lnum <= last then
+        pcall(vim.api.nvim_win_set_cursor, 0, { lnum, col })
       end
     end
   end,
 })
 
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*",
-  callback = function()
-    -- Ждём, пока буфер полностью загрузится
-    vim.defer_fn(function()
-      local line = vim.fn.line("'\"")
-      if line > 1 and line <= vim.fn.line("$") then
-        pcall(vim.cmd, "normal! g`\"")
-        -- Опционально: отцентрировать курсор
-        -- pcall(vim.cmd, "normal! zz")
-      end
-    end, 10) -- небольшая задержка в 10 мс
-  end,
-})

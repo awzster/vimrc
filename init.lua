@@ -172,56 +172,80 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      -- красивые иконки для источников
+      local kind_icons = {
+        Text = "",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "",
+        Field = "󰇽",
+        Variable = "󰂡",
+        Class = "󰠱",
+        Interface = "",
+        Module = "",
+        Property = "󰜢",
+        Unit = "",
+        Value = "󰎠",
+        Enum = "",
+        Keyword = "󰌋",
+        Snippet = "",
+        Color = "󰏘",
+        File = "󰈙",
+        Reference = "󰈇",
+        Folder = "󰉋",
+        EnumMember = "",
+        Constant = "󰏿",
+        Struct = "󰙅",
+        Event = "",
+        Operator = "󰆕",
+        TypeParameter = "",
+      }
+
       cmp.setup({
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
-        sources = cmp.config.sources({
-          { name = "nvim_lsp", priority = 7000 },
-          { name = "luasnip", priority = 500 },
-          { name = "buffer", priority = 1000, option = {
-            -- вернём список всех открытых буферов
-            get_bufnrs = function()
-              return vim.api.nvim_list_bufs()
-            end,
-            keyword_length = 3,  -- как обсуждали, чтобы не было шума
-          },
-        },
-          { name = "path", priority = 100 },
-        }),
         mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              cmp.complete()
-            end
-          end),
-          ["<C-n>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              cmp.complete()
-            end
-          end),
-          ["<Down>"] = cmp.mapping.select_next_item(),
-          ["<Up>"] = cmp.mapping.select_prev_item(),
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.confirm({ select = true })
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- Enter тоже работает, если хочешь
         }),
-
+        sources = cmp.config.sources({
+          { name = "nvim_lsp", priority = 1000 },
+          { name = "luasnip",  priority = 750 },
+          { name = "buffer",   priority = 500, option = { keyword_length = 3,
+          get_bufnrs = function() return vim.api.nvim_list_bufs() end } },
+          { name = "path",     priority = 250 },
+        }),
+        formatting = {
+          format = function(entry, vim_item)
+            -- добавляем иконки
+            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "", vim_item.kind)
+            vim_item.menu = ({
+              nvim_lsp = "[LSP]",
+              luasnip = "[Snip]",
+              buffer = "[Buf]",
+              path = "[Path]",
+            })[entry.source.name]
+            return vim_item
+          end,
+        },
         window = {
-          completion = cmp.config.window.bordered(),       -- список кандидатов
-          documentation = cmp.config.window.bordered(),    -- окно документации справа
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        experimental = {
+          ghost_text = true, -- 👻 inline-предсказание
         },
       })
+
+      -- Чтобы cmp работал комфортно
+      vim.o.completeopt = "menu,menuone,noselect"
+
     end,
   },
 

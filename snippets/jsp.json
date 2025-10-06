@@ -1,0 +1,160 @@
+{
+  "parentheses": {
+    "prefix": "(",
+    "body": "($1)",
+    "description": "Wrap in parentheses"
+  },
+  "curly braces": {
+    "prefix": "{",
+    "body": "{$1}",
+    "description": "Wrap in curly braces"
+  },
+  "square brackets": {
+    "prefix": "[",
+    "body": "[$1]",
+    "description": "Wrap in square brackets"
+  },
+  "else if JSON complex": {
+    "prefix": "elsejsonComplex",
+    "body": [
+      "else if (dtType.equals(\"$1\"))",
+      "{",
+      "    sb.append(\"{\");",
+      "    sb.append(\"\\\"$2\\\":\" + ds.getList(\"call (:userId, :compCode)\", userId, compCode, request) + \",\");",
+      "    sb.append(\"\\\"$3\\\":\" + ds.getList(\"call (:userId, :compCode)\", userId, compCode, request) + \"\");",
+      "    sb.append(\"}\");",
+      "}"
+    ],
+    "description": "Else-if block returning complex JSON"
+  },
+  "getList": {
+    "prefix": "getList",
+    "body": [
+      "else if (dtType.equals(\"$1\"))",
+      "{",
+      "    sb.append(ds.getList(\"call $2(:userId, :compCode, $3)\", userId, compCode, request));",
+      "}"
+    ],
+    "description": "Append list from stored procedure"
+  },
+  "getObject": {
+    "prefix": "getObject",
+    "body": [
+      "else if (dtType.equals(\"$1\"))",
+      "{",
+      "    sb.append(ds.getObject(\"call $2(:userId, :compCode, $3)\", userId, compCode, request));",
+      "}"
+    ],
+    "description": "Append single object from stored procedure"
+  },
+  "getJSON fragment": {
+    "prefix": "getJSON",
+    "body": "sb.append(\"\\\"$1\\\":\" + ds.getList(\"call (:userId, :compCode)\", userId, compCode, request) + \"$2\");",
+    "description": "JSON key-value fragment"
+  },
+  "Update call": {
+    "prefix": "Update",
+    "body": [
+      "else if (dtType.equals(\"$1\"))",
+      "{",
+      "    ds.Update(\"call $2(:userId, :compCode, $3)\", userId, compCode, request);",
+      "}"
+    ],
+    "description": "Execute update stored procedure"
+  },
+  "getResult (ArrayList)": {
+    "prefix": "getResult",
+    "body": [
+      "    ArrayList data = new ArrayList();",
+      "    Hashtable<String, String> hash = new Hashtable<String, String>();",
+      "    data = ds.getResult(\"call $1(:userId, :compCode)\", userId, compCode, request);",
+      "    hash = (Hashtable) data.get(0);"
+    ],
+    "description": "Get result as ArrayList<Hashtable>"
+  },
+  "hint HTML response": {
+    "prefix": "hint",
+    "body": [
+      "else if (dtType.equals(\"$1\"))",
+      "{",
+      "    java.util.ArrayList<java.util.Hashtable> list = ds.getResult(\"call $2(:userId, :compCode, $3)\", userId, compCode, request);",
+      "    String res = \"<table class=\\\"table\\\"><thead><tr><th>#</th></tr></thead><body>\";",
+      "    for (int i = 0; i < list.size(); i++)",
+      "    {",
+      "        Hashtable<String, String> o = (Hashtable <String, String>) list.get(i);",
+      "        res += \"<tr><td>\" + o.get( \"pos\") + \"</td><td></tr>\";",
+      "    }",
+      "    res += \"</body></table>\";",
+      "    response.setContentType(\"text/html; charset=UTF-8\");",
+      "    out.clear();",
+      "    out.println(\"<div>\" + res + \"</div>\");",
+      "    return;",
+      "}"
+    ],
+    "description": "Return HTML table as hint"
+  },
+  "try-catch (JSP)": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "{",
+      "    $1",
+      "}",
+      "catch (Exception err) { com.asbis.util.Logger.log( '4za: $2: ' + err.getMessage(  )); }"
+    ],
+    "description": "Try-catch with custom logging"
+  },
+  "log (JSP)": {
+    "prefix": "log",
+    "body": "com.asbis.util.Logger.log( \"\\t4za: \" + $1);",
+    "description": "Custom logger"
+  },
+  "HTML list response": {
+    "prefix": "html",
+    "body": [
+      "else if (dtType.equals(\"getAdditionalHint\"))",
+      "{",
+      "    java.util.ArrayList<java.util.Hashtable> list = ds.getResult(\"call hrm.procenter_pr_get(:userId, :compCode, :procenter_id, :type)\", userId, compCode, request);",
+      "    String res = \"\";",
+      "    for (int i = 0; i < list.size(); i++)",
+      "    {",
+      "        Hashtable<String, String> o = (Hashtable <String, String>) list.get(i);",
+      "        res += \"<li>\" + o.get( \"$1\") + \"</li>\";",
+      "    }",
+      "    response.setContentType(\"text/html; charset=UTF-8\");",
+      "    out.clear();",
+      "    out.println(\"<ul style=\\\"line-height: 1.6rem;\\\">\" + res + \"</ul>\");",
+      "    return;",
+      "}"
+    ],
+    "description": "Return <ul> from DB data"
+  },
+  "UMS email with CSV attachment": {
+    "prefix": "UMS",
+    "body": [
+      "try",
+      "{",
+      "    com.it4profi.ums.helpers.UserInfo userInfo = new com.it4profi.ums.helpers.UserInfo(logininfo.getUSER_ID());",
+      "    com.it4profi.ums.EventProducer producer = new com.it4profi.ums.EventProducer();",
+      "    producer.setClass(1);",
+      "    producer.setCreator(getName(), request);",
+      "    producer.setReceiver(userInfo.email, userInfo.email);",
+      "    producer.setSender(\"reports@it4profit.com\",\"IT4Profit reports\");",
+      "    producer.setUserId(logininfo.getUSER_ID());",
+      "    producer.setEventProperty(\"USER_ID\", logininfo.getUSER_ID());",
+      "    producer.setEventProperty(\"COMP_CODE\", accessrights.getCOMP_CODE());",
+      "    producer.setEventProperty(\"ISO_LANG\", (String)session.getValue(\"LANG\"));",
+      "    producer.addSuject(\"$1\");",
+      "    producer.addAttachmentSqlCsv(\"call $2(:userId, :compCode)\"",
+      "    ,\"\"",
+      "    ,\"Export.csv\",\"Export.zip\",',',false) ;",
+      "    producer.store(true, false);",
+      "}",
+      "catch (Exception e){",
+      "    out.clear();",
+      "}",
+      "return;"
+    ],
+    "description": "Send email via UMS with CSV attachment"
+  }
+}

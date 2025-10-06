@@ -18,3 +18,18 @@ vim.keymap.set("n", "<leader>dl", toggle_lsp_lines, { desc = "Toggle diagnostics
 --   if diagnostics_enabled then vim.diagnostic.show() else vim.diagnostic.hide() end
 -- end, { desc = "Toggle diagnostics" })
 
+local severity_icons = {
+  [vim.diagnostic.severity.ERROR] = "",
+  [vim.diagnostic.severity.WARN]  = "",
+  [vim.diagnostic.severity.INFO]  = "",
+  [vim.diagnostic.severity.HINT]  = ""
+}
+
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = function(diagnostic)
+      return severity_icons[diagnostic.severity] or "●"
+    end
+  },
+  -- остальные настройки...
+})

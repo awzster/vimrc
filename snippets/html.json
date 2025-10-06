@@ -1,0 +1,312 @@
+{
+  "table": {
+    "prefix": "table-cust",
+    "body": [
+      "<div class=\"table\" style=\"max-height: 30vh; overflow-y: auto;\">",
+      "    <table>",
+      "        <thead>",
+      "            <tr>",
+      "                <th>#</th>",
+      "                $1",
+      "            </tr>",
+      "        </thead>",
+      "        <tbody>",
+      "            <tr ng-repeat=\"el in vm.$2 track by $index\">",
+      "                <td class=\"text-right\">{{el.pos}}</td>",
+      "            </tr>",
+      "        </tbody>",
+      "    </table>",
+      "</div>"
+    ],
+    "description": "Scrollable table with ng-repeat"
+  },
+  "fieldset": {
+    "prefix": "fieldset",
+    "body": ["<fieldset>", "    <legend>$1</legend>", "    $2", "</fieldset>"],
+    "description": "<fieldset> with legend"
+  },
+  "panel": {
+    "prefix": "panel",
+    "body": [
+      "<div class=\"panel-sm panel-default\">",
+      "    <div class=\"panel-heading\">$1</div>",
+      "    <div class=\"panel-body\">",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "Bootstrap-like panel"
+  },
+  "row": {
+    "prefix": "row",
+    "body": [
+      "<div class=\"row h-2-2\">",
+      "    <div class=\"col-xs-5 text-right\">$1</div>",
+      "    <div class=\"col-xs-10\">",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "Form row (5/10 cols)"
+  },
+  "rowe": {
+    "prefix": "rowe",
+    "body": [
+      "<div class=\"row\">",
+      "    <div class=\"col-xs-5 text-right\">$1</div>",
+      "    <div class=\"col-xs-10\">",
+      "        $2",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "Form row with content"
+  },
+  "a-ng-click": {
+    "prefix": "a-ng-click",
+    "body": "<a href=\"javascript:void(0)\" ng-click=\"$1\" title=\"$2\">$3</a>",
+    "description": "ng-click anchor"
+  },
+  "a-href": {
+    "prefix": "a-href",
+    "body": "<a href=\"$1\" target=\"_blank\" title=\"$2\">$3</a>",
+    "description": "External link"
+  },
+  "ng-modal": {
+    "prefix": "ng-modal",
+    "body": [
+      "<modal-dialog show=\"vm.$1\" dialog-title=\"$2\" ng-modal-class=\"ng-modal-md\" ng-cloak>",
+      "    <form name=\"vm.$1Form\" ng-submit=\"vm.$1Submit()\">",
+      "        <div class=\"panel-sm panel-default\" style=\"max-height: calc(100vh - 10rem); overflow-y: auto;\">",
+      "            <div class=\"panel-body\" style=\"padding: 6px;\">",
+      "            </div>",
+      "            <div class=\"panel-footer text-right\">",
+      "                <button class=\"btn btn-primary\" type=\"submit\">$3</button>",
+      "                <button class=\"btn btn-default\" ng-click=\"vm.$1 = false\" type=\"button\">Close</button>",
+      "            </div>",
+      "        </div>",
+      "    </form>",
+      "</modal-dialog>"
+    ],
+    "description": "Custom modal dialog"
+  },
+  "ng-select-filter": {
+    "prefix": "ng-select-filter",
+    "body": [
+      "<select",
+      "    class=\"form-control\"",
+      "    ng-model=\"vm.filter.$1\"",
+      "    ng-options=\"el.name for el in vm.$2List track by el.id\">",
+      "    <option value=\"\"></option>",
+      "</select>"
+    ],
+    "description": "Filter select"
+  },
+  "ng-select": {
+    "prefix": "ng-select",
+    "body": [
+      "<select",
+      "    class=\"form-control\"",
+      "    ng-model=\"vm.$1\"",
+      "    ng-options=\"el.name for el in vm.$2List track by el.id\">",
+      "    <option value=\"\"></option>",
+      "</select>"
+    ],
+    "description": "Basic ng-select"
+  },
+  "ng-input": {
+    "prefix": "ng-input",
+    "body": "<input class=\"form-control\" type=\"search\" ng-model=\"$1\"/>",
+    "description": "Search input"
+  },
+  "button": {
+    "prefix": "button",
+    "body": "<button class=\"btn btn-$1\" type=\"button\" ng-click=\"vm.$2()\">$3</button>",
+    "description": "Action button"
+  },
+  "rinput": {
+    "prefix": "rinput",
+    "body": [
+      "<div class=\"row h-2-2\">",
+      "    <div class=\"col-sm-4 text-right\">$1:</div>",
+      "    <div class=\"col-sm-8 text-left\"><input class=\"form-control\" type=\"input\" ng-model=\"$2\"/></div>",
+      "</div>"
+    ],
+    "description": "Labeled input row"
+  },
+  "rselect": {
+    "prefix": "rselect",
+    "body": [
+      "<div class=\"row h-2-2\">",
+      "    <div class=\"col-sm-4 text-right\">$1:</div>",
+      "    <div class=\"col-sm-8 text-left\">",
+      "        <select class=\"form-control\" ng-model=\"$2\" ng-options=\"el.name for el in $3 track by el.id\"></select>",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "Labeled select row"
+  },
+  "ui-select-remote": {
+    "prefix": "ui-select-remote",
+    "body": [
+      "<ui-select",
+      "    ng-model=\"$1\"",
+      "    append-to-body=\"true\"",
+      "    theme=\"select2\"",
+      "    style=\"width: 100%;\">",
+      "    <ui-select-match allow-clear=\"true\" placeholder=\"All\">",
+      "        <span ng-bind=\"$select.selected.name\"></span>",
+      "    </ui-select-match>",
+      "    <ui-select-choices",
+      "        repeat=\"el in $2 track by el.id\" ",
+      "        refresh=\"vm.$3($select.search)\"",
+      "        refresh-delay=\"500\"",
+      "        minimum-input-length=\"1\">",
+      "        <span>{{el.name}}</span>",
+      "    </ui-select-choices>",
+      "</ui-select>"
+    ],
+    "description": "ui-select with remote refresh"
+  },
+  "ui-select-local": {
+    "prefix": "ui-select-local",
+    "body": [
+      "<ui-select",
+      "    ng-model=\"$1\"",
+      "    append-to-body=\"true\"",
+      "    theme=\"select2\"",
+      "    ng-required=\"true\"",
+      "    style=\"width: 100%;\">",
+      "    <ui-select-match allow-clear=\"true\" placeholder=\"All\">",
+      "        <span ng-bind=\"$select.selected.name\"></span>",
+      "    </ui-select-match>",
+      "    <ui-select-choices repeat=\"el in ( $2 | filter: $select.search ) | limitTo:50 track by el.id\">",
+      "        <span>{{el.name}}</span>",
+      "    </ui-select-choices>",
+      "</ui-select>"
+    ],
+    "description": "ui-select with local filter"
+  },
+  "uib-dropdown": {
+    "prefix": "uib-dropdown",
+    "body": [
+      "<div class=\"btn-group flex\" uib-dropdown dropdown-append-to-body auto-close=\"outsideClick\">",
+      "    <button id=\"split-button\" type=\"button\" class=\"btn btn-primary\" uib-dropdown-toggle>$1<span class=\"l-5\"></span><span class=\"caret\"></span></button>",
+      "    <ul class=\"dropdown-menu dropdown-menu-right\" uib-dropdown-menu role=\"menu\" aria-labelledby=\"split-button\">",
+      "        <li role=\"menuitem\">",
+      "            <a href=\"javascript:void(0)\" ng-click=\"vm.$2()\">$3</a>",
+      "        </li>",
+      "    </ul>",
+      "</div>"
+    ],
+    "description": "Dropdown with actions"
+  },
+  "sizes": {
+    "prefix": "sizes",
+    "body": [
+      "<h3 class=\"visible-xs-block\">XS</h3>",
+      "<h3 class=\"visible-sm-block\">SM</h3>",
+      "<h3 class=\"visible-md-block\">MD</h3>",
+      "<h3 class=\"visible-lg-block\">LG</h3>"
+    ],
+    "description": "Responsive size indicators"
+  },
+  "ui.modal (template)": {
+    "prefix": "ui.modal",
+    "body": [
+      "<script type=\"text/ng-template\" id=\"$1.html\">",
+      "  <div class=\"modal-header\">",
+      "    <h3>$2</h3>",
+      "  </div>",
+      "  <form ng-submit=\"vm.submit()\">",
+      "    <div class=\"modal-body\">",
+      "    </div>",
+      "    <div class=\"modal-footer\">",
+      "      <button type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" />",
+      "      <button type=\"button\" class=\"btn btn-default\" ng-click=\"cancel()\">Cancel</button>",
+      "    </div>",
+      "  </form>",
+      "</script>"
+    ],
+    "description": "Modal template script"
+  },
+  "multiselect": {
+    "prefix": "multiselect",
+    "body": [
+      "<div",
+      "    uib-dropdown-multiselect",
+      "    selected-model=\"vm.$1\"",
+      "    options=\"vm.$2List\"",
+      "    id=\"$1\"",
+      "    extra-settings=\"vm.extraSettings\"",
+      "    ng-if=\"vm.extraSettings\"",
+      "    events=\"{onSelectionChanged: vm.onSelectionChanged}\" ",
+      "    class=\"uib-dropdown-multiselect uib-dropdown-multiselect-$1\"",
+      "    style=\"width: 100%;\">",
+      "</div>"
+    ],
+    "description": "Multiselect dropdown"
+  },
+  "autocomplte": {
+    "prefix": "autocomplte",
+    "body": [
+      "<div angucomplete-alt",
+      "    style=\"width: 100%;\"",
+      "    id=\"autocomplete-$1\"",
+      "    placeholder=\"Search $2\"",
+      "    pause=\"20\"",
+      "    input-name=\"autocomplete-$1\"",
+      "    selected-object=\"vm.$3\"",
+      "    remote-url=\"./dataHelper.jsp?dtType=$4&str=\"",
+      "    title-field=\"name\"",
+      "    text-no-results=\"false\"",
+      "    minlength=\"2\"",
+      "    required=\"1\"",
+      "    field-required=\"false\"",
+      "    input-class=\"form-control form-control-small\"",
+      "    match-class=\"highlight\">",
+      "</div>"
+    ],
+    "description": "angucomplete-alt input"
+  },
+  "collapsed": {
+    "prefix": "collapsed",
+    "body": [
+      "<div class=\"panel-default panel-sm\">",
+      "    <div class=\"panel-heading flex-space-between\">",
+      "        <div class=\"pointer\" ng-click=\"vm.is$1 = !vm.is$1\">",
+      "            <span class=\"r-5 lg-2\">$2</span>",
+      "            <span class=\"glyphicon glyphicon-chevron-right\" ng-show=\"vm.is$1\"></span>",
+      "            <span class=\"glyphicon glyphicon-chevron-down\" ng-show=\"!vm.is$1\"></span>",
+      "        </div>",
+      "        <div class=\"text-right\">",
+      "            <span class=\"badge badge-primary\">{{vm.$3}}</span>",
+      "            <a class=\"l-15\" href=\"javascript:void(0)\" ng-click=\"vm.$4()\">$5</a>",
+      "        </div>",
+      "    </div>",
+      "    <div class=\"panel-body collapse\" uib-collapse=\"vm.is$1\">",
+      "        $6",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "Collapsible panel"
+  },
+  "ng-repeat-start": {
+    "prefix": "ng-repeat-start",
+    "body": [
+      "<div ng-repeat-start=\"xx in vm.$1 track by $index\">",
+      "    {{xx.group}}",
+      "</div>",
+      "<div ng-repeat=\"el in xx.children track by $index\" ng-repeat-end>",
+      "    {{el.name}}",
+      "</div>"
+    ],
+    "description": "Nested ng-repeat with start/end"
+  },
+  "qtip": {
+    "prefix": "qtip",
+    "body": [
+      "<span ajax-qtip at=\"bottom rigth\" rel=\"/pd/wicImg.jsp?WIC={{$1.wic}}\" art=\"$1.wic\" title=\"{{$1.ec_descrition}}\">",
+      "    <a href=\"javascript:void(0)\" style=\"text-decoration: underline\" ng-click=\"vm.showArticle($1.wic)\">{{$1.wic}}</a>",
+      "</span>"
+    ],
+    "description": "AJAX tooltip with article link"
+  }
+}

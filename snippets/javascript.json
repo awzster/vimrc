@@ -1,0 +1,295 @@
+{
+  "Comment (author)": {
+    "prefix": "cmt",
+    "body": [
+      "/**",
+      " * @author : ${1:za} | ${2:za@e-vision.by}",
+      " * @description",
+      " *     ${3}",
+      " * @return {${4:Object}} ${5:desc}",
+      " */"
+    ],
+    "description": "/** @auth... */"
+  },
+  "File comment": {
+    "prefix": "fcmt",
+    "body": [
+      "/* -----------------------------------------",
+      "File    : ${1:filename}",
+      "Author  : za",
+      "Contact : za@e-vision.by",
+      "Date    : ${2:$(date +'%d/%m/%Y')}",
+      "Description : ${3}",
+      "$Header: $",
+      "----------------------------------------- */"
+    ],
+    "description": "Full doxygen-style file comment"
+  },
+  "try/catch": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1}",
+      "}",
+      "catch (err) { console.warn(`${2:__CURSOR__}: $\{err\}`); }"
+    ],
+    "description": "try {..} catch {..}"
+  },
+  "console.log": {
+    "prefix": "log",
+    "body": "console.log(${1});",
+    "description": "console.log"
+  },
+  "console.warn": {
+    "prefix": "warn",
+    "body": "console.warn(${1});",
+    "description": "console.warn"
+  },
+  "$('#id').val()": {
+    "prefix": "val",
+    "body": "$('#${1:id}').val()",
+    "description": "jQuery val()"
+  },
+  ".then": {
+    "prefix": ".then",
+    "body": [
+      ".then(${1:data} => {",
+      "\t${2}",
+      "});"
+    ],
+    "description": ".then()"
+  },
+  ".map": {
+    "prefix": ".map",
+    "body": [
+      ".map(el => {",
+      "\t${1}",
+      "});"
+    ],
+    "description": ".map()"
+  },
+  ".filter": {
+    "prefix": ".filter",
+    "body": ".filter(el => { return el.id == ${1}; });",
+    "description": ".filter()"
+  },
+  ".find": {
+    "prefix": ".find",
+    "body": ".find(el => { return el.id == ${1}; });",
+    "description": ".find()"
+  },
+  ".some": {
+    "prefix": ".some",
+    "body": ".some(el => { return el.id == ${1}; });",
+    "description": ".some()"
+  },
+  ".join": {
+    "prefix": ".join",
+    "body": ".map(el => el.id).join(',');",
+    "description": ".map().join()"
+  },
+  "Arrow function": {
+    "prefix": "=>",
+    "body": "(${1:arg}) => { ${2} }",
+    "description": "Arrow function"
+  },
+  "console.time": {
+    "prefix": "time",
+    "body": [
+      "console.time('${1:timer}');",
+      "${2}",
+      "console.timeEnd('${1:timer}');"
+    ],
+    "description": "console.time wrapper"
+  },
+  "this.method = () =>": {
+    "prefix": "tfunc",
+    "body": [
+      "this.${1:name} = (${2:arg}) =>",
+      "{",
+      "\t${3}",
+      "};"
+    ],
+    "description": "this.method = () => { ... }"
+  },
+  "jshint ignore": {
+    "prefix": "jshintignore",
+    "body": [
+      "/* jshint ignore:start */",
+      "${1}",
+      "/* jshint ignore:end */"
+    ],
+    "description": "jshint ignore block"
+  },
+  "SweetAlert confirm": {
+    "prefix": "swal-confirm",
+    "body": [
+      "return new swal({",
+      "    title: 'Confirmarion',",
+      "    text: 'Are you sure to ${1:question}?',",
+      "    icon: 'question',",
+      "    showCancelButton: true,",
+      "    confirmButtonText: 'OK',",
+      "    cancelButtonText: 'Cancel' }).then((value) => {",
+      "    if (value.isConfirmed)",
+      "    {",
+      "        ${2}",
+      "    }",
+      "});"
+    ],
+    "description": "SweetAlert confirm dialog"
+  },
+  "SweetAlert error": {
+    "prefix": "swal-error",
+    "body": "return new swal({ title: 'Error!', text: '${1}', icon: 'error' });",
+    "description": "SweetAlert error"
+  },
+  "SweetAlert success": {
+    "prefix": "swal-success",
+    "body": [
+      "return new swal({ title: 'Success!', text: '${1:Success}', icon: 'success' }).then(() => {",
+      "    ${2}",
+      "});"
+    ],
+    "description": "SweetAlert success"
+  },
+  "SweetAlert input": {
+    "prefix": "swal-input",
+    "body": [
+      "return new swal({",
+      "  title: 'Clone program',",
+      "  input: 'text',",
+      "  inputLabel: 'Program name',",
+      "  icon: 'question',",
+      "  showCancelButton: true,",
+      "  confirmButtonText: 'OK',",
+      "  cancelButtonText: 'Cancel' }).then((value) => {",
+      "  if (value.isConfirmed && value.value)",
+      "  {",
+      "    ${1}",
+      "  }",
+      "});"
+    ],
+    "description": "SweetAlert with input"
+  },
+  "join (this)": {
+    "prefix": "join",
+    "body": "this.${1}.map(el => el.id).join(',');",
+    "description": "this.array.map(...).join()"
+  },
+  "join (array)": {
+    "prefix": "join",
+    "body": "${1:array}.map(el => el.id).join(',');",
+    "description": "array.map(...).join()"
+  },
+  "eslint-disable": {
+    "prefix": "eslind-disable",
+    "body": [
+      "/* eslint-disable */",
+      "${1:var}",
+      "/* eslint-enable */"
+    ],
+    "description": "eslint disable block"
+  },
+  "Object.assign": {
+    "prefix": "assign",
+    "body": "Object.assign(${1:this}, ${2:data});",
+    "description": "Object.assign"
+  },
+  "rendererClick": {
+    "prefix": "rendererClick",
+    "body": [
+      "const ${1:some} = ({ data, value }) =>",
+      "{",
+      "    return data && !data.isTotal ?",
+      "        `<a href=\"javascript:void(0)\" ng-click=\"vm.DlgOpen('\${data.pos}')\">\${value}</a>` : value;",
+      "}"
+    ],
+    "description": "AG-Grid cell renderer with ng-click"
+  },
+  "rendererHref": {
+    "prefix": "rendererHref",
+    "body": [
+      "const ${1:some} = ({ data, value }) =>",
+      "{",
+      "    return data && !data.isTotal ?",
+      "        `<a href=\"\" target=\"_blank\">\${value}</a>` : value;",
+      "}"
+    ],
+    "description": "AG-Grid cell renderer with href"
+  },
+  "rendererContext": {
+    "prefix": "rendererContext",
+    "body": [
+      "const attrCellRenderer = ({ data, value, context }) =>",
+      "{",
+      "    // don't fogot this",
+      "    // this.gridOptions.context = { $scope: $scope };",
+      "    const link = document.createElement('a');",
+      "    link.href = 'javascript:void(0)';",
+      "    link.textContent = value;",
+      "    link.addEventListener('click', function() ",
+      "    {",
+      "        if (context && context.$scope) ",
+      "        {",
+      "            context.$scope.vm.attributeDlgOpen(data);",
+      "            if (!context.$scope.$$phase) ",
+      "            {",
+      "              context.$scope.$apply();",
+      "            }",
+      "        }",
+      "    });",
+      "    return link;",
+      "}"
+    ],
+    "description": "AG-Grid cell renderer with context"
+  },
+  "_.forOwn": {
+    "prefix": "forOwn",
+    "body": [
+      "_.forOwn(this.${1:object}, (value, key) => {",
+      "    if (typeof(value) == 'string')",
+      "        ${2:params}[key] = value;",
+      "});"
+    ],
+    "description": "Lodash forOwn"
+  },
+  "params": {
+    "prefix": "params",
+    "body": [
+      "let params = utilsService.prepareParams(this.${1});",
+      "Object.assign(params, { dtType: '${2:load}' });"
+    ],
+    "description": "Prepare params for service call"
+  },
+  "remapObject": {
+    "prefix": "remapObiect",
+    "body": [
+      "let keyMap = { ${1:id}: 'id', ${2:name}: 'name' };",
+      "${3:list} = ${3:list}.map(el => _.mapKeys(el, (value, key) => keyMap[key] || key));"
+    ],
+    "description": "Remap object keys with _.mapKeys"
+  },
+  "this.function = () =>": {
+    "prefix": "function",
+    "body": [
+      "this.${1:function} = (${2:arg}) =>",
+      "{",
+      "  ${3}",
+      "};"
+    ],
+    "description": "this.function = () => { ... }"
+  },
+  {
+    "try-catch wrap": {
+      "prefix": "trywrap",
+      "body": [
+        "try {",
+          "\t$TM_SELECTED_TEXT",
+          "}",
+          "catch (err) { console.warn(`Error: ${err}`); }"
+      ],
+      "description": "Wrap selection in try/catch"
+    }
+  }
+}

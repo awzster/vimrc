@@ -1,0 +1,45 @@
+{
+  "name": "my_custom_snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "javascript",
+          "js",
+          "jsx",
+          "javascriptreact",
+          "typescript",
+          "ts",
+          "tsx"
+        ],
+        "path": "./javascript.json"
+      },
+      {
+        "language": [
+          "html",
+          "htm"
+        ],
+        "path": "./html.json"
+      },
+      {
+        "language": [
+          "css"
+        ],
+        "path": "./css.json"
+      },
+      {
+        "language": [
+          "jsp"
+        ],
+        "path": "./jsp.json"
+      },
+      {
+        "language": [
+          "xsl",
+          "xslt"
+        ],
+        "path": "./xsl.json"
+      }
+    ]
+  }
+}

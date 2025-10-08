@@ -1,6 +1,3 @@
-" ALE toggle
-nmap ;e :ALEToggle<cr>
-
 " Быстрые команды
 nmap <leader>t :call TrimWhitespace()<CR>
 nmap <leader>s :so ~/.vimrc<CR>

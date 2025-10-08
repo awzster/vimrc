@@ -12,20 +12,42 @@ local kind_icons = {
 
 cmp.setup({
   snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  -- Автоматически показывать при вводе
+  completion = {
+    completeopt = "menu,menuone,noinsert",
+  },
+
   mapping = cmp.mapping.preset.insert({
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+
+    -- Подтверждение выбора по Enter
+    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- ← это ключевая строка
+
+    -- Tab используем ТОЛЬКО для прыжков по placeholder'ам (если список скрыт)
+    ["<Tab>"] = function(fallback)
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
   }),
+
   sources = cmp.config.sources({
-    { name = "nvim_lsp", priority = 800 },
-    { name = "luasnip",  priority = 750 },
-    { name = "buffer",   priority = 1000,
+    { name = "luasnip",  priority = 1000 },
+    { name = "buffer",   priority = 750,
       option = {
         keyword_length = 3,
         get_bufnrs = function() return vim.api.nvim_list_bufs() end,
       },
     },
+    { name = "nvim_lsp", priority = 500 },
     { name = "path",     priority = 250 },
   }),
   formatting = {

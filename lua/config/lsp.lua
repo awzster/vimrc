@@ -1,5 +1,5 @@
 -- lua/config/lsp.lua
-local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
+--local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
 
 local function on_attach(client, bufnr)
   if client.name == "ts_ls" then

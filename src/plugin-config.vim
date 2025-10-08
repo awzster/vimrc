@@ -1,61 +1,8 @@
 " xptemplate
-let g:xptemplate_vars = "SPcmd=&BRloop=\n"
+"let g:xptemplate_vars = "SPcmd=&BRloop=\n"
 
-" DelimitMate
-au FileType vim,html let b:delimitMate_matchpairs = "(:),[:],{:}"
-" comment adter update config
-"let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
-let b:delimitMate_insert_eol_marker = 1
 
-" Для Far.vim
-let g:far#source = 'rg'       " Использовать ripgrep для скорости
-let g:far#file_mask = '**/*.{js,html,ts,css}' " Расширения файлов
-" Пропустить текущую строку при --ask
-"let g:far#mapping_skip = '<C-n>'
-
-" Подтвердить текущую строку при --ask
-let g:far#mapping_accept = '<C-y>'
-
-"let g:far#ignore_files = [tags] " Исключить папки
-" Исключения для Far.vim:
-" - tags          - служебный файл ctags
-" - node_modules  - зависимости npm
-" - .git          - системные файлы Git
-" - dist          - папка сборки
-" - .swp          - swap-файлы Vim
-" - .min.js       - минифицированные JS
-" let g:far#ignore_files = [
-"       \ '**/tags',
-"       \ '**/node_modules/**',
-"       \ '**/.git/**',
-"       \ '**/dist/**',
-"       \ '**/*.swp',
-"       \ '**/*.min.js'
-"       \ ]
-let g:far#ignore_files = [
-      \ 'tags',
-      \ '**/node_modules/**',
-      \ '**/.git/**',
-      \ '**/dist/**',
-      \ '*.swp',
-      \ '*.min.js'
-      \ ]
-
-" let g:far#source_options = {
-"       \ 'rg': '--hidden --no-ignore-vcs --glob=!tags' 
-"       \ }
-let g:far#source_options = {
-      \ 'rg': '--glob=!tags --glob=!*.swp --glob=!*.min.js --glob=!**/node_modules/** --glob=!**/.git/** --glob=!**/dist/**'
-      \ }
-" Горячие клавиши
-nnoremap <leader>fr :Far 
-nnoremap <leader>rp :Fardo<CR>
-
-let g:matchup_matchparen_offscreen = {'method': 'popup'}
-
-"autocmd BufWritePre *.js :JsBeautify
+"let g:matchup_matchparen_offscreen = {'method': 'popup'}
 
 " Общие параметры
 set noswapfile
@@ -129,7 +76,7 @@ set viewoptions=cursor,folds
 set viewoptions-=options
 autocmd BufLeave *.* mkview!
 autocmd BufEnter *.* silent! loadview
-source /home/za/.vim/scripts/matchit.vim
+"source /home/za/.vim/scripts/matchit.vim
 set listchars=tab:\|\ 
 set list
 set fo+=t
@@ -148,4 +95,4 @@ setlocal selection=inclusive
 setlocal selectmode&
 
 " Не переопределяем поведение мыши
-"nnoremap <buffer> <2-LeftMouse> <C-LeftMouse>
+nnoremap <buffer> <2-LeftMouse> <C-LeftMouse>

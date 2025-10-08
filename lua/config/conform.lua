@@ -8,6 +8,20 @@ require("conform").setup({
     json             = { "prettier" },
     html             = { "prettier" },
     css              = { "prettier" },
+    xml              = { "xmllint" },
+    xsl              = { "xmllint" },
+    xslt             = { "xmllint" },
+  },
+  formatters = {
+    xmllint = {
+      command = "xmllint",
+      args = {
+        "--format",
+        "--recover", -- игнорировать ошибки
+        "-"
+      },
+      stdin = true,
+    },
   },
   format_on_save = {
     timeout_ms = 2000,

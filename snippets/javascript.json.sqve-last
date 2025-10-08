@@ -95,6 +95,19 @@
     ],
     "description": "scope.$watch"
   },
+  "try-catch": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "{",
+      "\t$TM_SELECTED_TEXT",
+      "}",
+      "catch (e) {",
+      "console.log($0);",
+      "}"
+    ],
+    "description": "Wrap selection in try-catch"
+  },
   "swal-confirm": {
     "prefix": "swal-confirm",
     "body": [
@@ -146,23 +159,41 @@
     ],
     "description": "SweetAlert with input"
   },
-  "try-catch": {
-    "prefix": "try",
+  "eslint-disable": {
+    "prefix": "eslind-disable",
     "body": [
-      "try",
-      "{",
+      "/* eslint-disable */",
       "\t$TM_SELECTED_TEXT",
-      "}",
-      "catch (e) {",
-      "console.log($0);",
-      "}"
+      "/* eslint-enable */"
     ],
-    "description": "Wrap selection in try-catch"
+    "description": "eslint disable block"
   },
   "assign": {
     "prefix": "assign",
-    "body": ["Object.assign($1, $2);"],
+    "body": "Object.assign($1, $2);",
     "description": "Object.assign"
+  },
+  "rendererClick": {
+    "prefix": "rendererClick",
+    "body": [
+      "const $1 = ({ data, value }) =>",
+      "{",
+      "  return data && !data.isTotal ?",
+      "    `<a href=\"javascript:void(0)\" ng-click=\"vm.DlgOpen('\${data.pos}')\">\${value}</a>` : value;",
+      "}"
+    ],
+    "description": "AG-Grid cell renderer with ng-click"
+  },
+  "rendererHref": {
+    "prefix": "rendererHref",
+    "body": [
+      "const $1 = ({ data, value }) =>",
+      "{",
+      "  return data && !data.isTotal ?",
+      "    `<a href=\"\" target=\"_blank\">\${value}</a>` : value;",
+      "}"
+    ],
+    "description": "AG-Grid cell renderer with href"
   },
   "forOwn": {
     "prefix": "forOwn",
@@ -189,28 +220,5 @@
       "$3 = $3.map(el => _.mapKeys(el, (value, key) => keyMap[key] || key));"
     ],
     "description": "Remap object keys with _.mapKeys"
-  },
-  "rendererClick": {
-    "prefix": "rendererClick",
-    "body": [
-      "const $1 = ({ data, value }) =>",
-      "{",
-      "  return data && !data.isTotal ?",
-      "    `<a href='javascript:void(0)' ng-click='vm.$2(\\${data.pos})'>\\${value}</a>` : value;",
-      "}"
-    ],
-    "description": "AG-Grid cell renderer with ng-click"
-  },
-
-  "rendererHref": {
-    "prefix": "rendererHref",
-    "body": [
-      "const $1 = ({ data, value }) =>",
-      "{",
-      "  return data && !data.isTotal ?",
-      "    `<a href='$2' target='_blank'>\\${value}</a>` : value;",
-      "}"
-    ],
-    "description": "AG-Grid cell renderer with href"
   }
 }

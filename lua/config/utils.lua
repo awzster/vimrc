@@ -15,7 +15,9 @@ M.filename_with_bufnr = function()
   local bufnr = vim.api.nvim_get_current_buf()
   local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
   if filename == "" then filename = "[No Name]" end
-  return string.format("[%d] %s", bufnr, filename)
+  --return string.format("[%d] %s", bufnr, filename)
+  return string.format("%s", bufnr, filename)
+  --return filename
 end
 
 M.char_code = function()

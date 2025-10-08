@@ -95,3 +95,7 @@ vim.keymap.set("i", "<C-l>", function()
     require("luasnip").change_choice(1)
   end
 end, { silent = true })
+
+vim.keymap.set("s", "<C-\\>", function()
+  require("luasnip").expand()
+end, { silent = true })

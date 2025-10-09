@@ -50,7 +50,11 @@ require("lazy").setup({
   "L3MON4D3/LuaSnip",
   -- Убираем зависимость от friendly-snippets
   config = function()
-    require("luasnip").config.setup({})
+    require("luasnip").config.setup({
+      enable_autosnippets = true,
+      -- Опционально: сохранять выделение при раскрытии
+      store_selection_keys = "<C-\\>", -- или ваша клавиша
+    })
 
     -- Загружаем только сниппеты из ~/.config/nvim/snippets
     require("luasnip.loaders.from_vscode").lazy_load({

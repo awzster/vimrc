@@ -60,11 +60,6 @@
     ],
     "description": "HTTP GET + extend this"
   },
-  "$timeout": {
-    "prefix": "timeout",
-    "body": ["$timeout(() => {", "    ${1:job}", "});"],
-    "description": "$timeout wrapper"
-  },
   "chain (batch update)": {
     "prefix": "chain",
     "body": [
@@ -76,7 +71,7 @@
       "lines = _.chunk(lines, 50);",
       "lines.map(el => {",
       "  chain = chain.then(() => {",
-      "    return this.doUpdateSingle(el);",
+      "  return this.doUpdateSingle(el);",
       "  });",
       "});",
       "return $q.when(chain).then(() => {",
@@ -90,7 +85,7 @@
     "body": [
       "scope.$watch(function(scope) {return scope.${1:value}}, function(newVal, oldVal) {",
       "  if (newVal)",
-      "    scope.${1:value} = newVal;",
+      "  scope.${1:value} = newVal;",
       "});"
     ],
     "description": "scope.$watch"
@@ -99,16 +94,16 @@
     "prefix": "swal-confirm",
     "body": [
       "return new swal({",
-      "    title: 'Confirmarion',",
-      "    text: 'Are you sure to $1?',",
-      "    icon: 'question',",
-      "    showCancelButton: true,",
-      "    confirmButtonText: 'OK',",
-      "    cancelButtonText: 'Cancel' }).then((value) => {",
-      "    if (value.isConfirmed)",
-      "    {",
-      "        $2",
-      "    }",
+      "  title: 'Confirmarion',",
+      "  text: 'Are you sure to $1?',",
+      "  icon: 'question',",
+      "  showCancelButton: true,",
+      "  confirmButtonText: 'OK',",
+      "  cancelButtonText: 'Cancel' }).then((value) => {",
+      "  if (value.isConfirmed)",
+      "  {",
+      "    $2",
+      "  }",
       "});"
     ],
     "description": "SweetAlert confirm dialog"
@@ -120,11 +115,7 @@
   },
   "swal-success": {
     "prefix": "swal-success",
-    "body": [
-      "return new swal({ title: 'Success!', text: '$1', icon: 'success' }).then(() => {",
-      "    $2",
-      "});"
-    ],
+    "body": ["return new swal({ title: 'Success!', text: '$1', icon: 'success' }).then(() => {", "  $2", "});"],
     "description": "SweetAlert success"
   },
   "swal-input": {
@@ -140,7 +131,7 @@
       "  cancelButtonText: 'Cancel' }).then((value) => {",
       "  if (value.isConfirmed && value.value)",
       "  {",
-      "    $1",
+      "  $1",
       "  }",
       "});"
     ],
@@ -148,15 +139,7 @@
   },
   "try-catch": {
     "prefix": "try",
-    "body": [
-      "try",
-      "{",
-      "\t$TM_SELECTED_TEXT",
-      "}",
-      "catch (e) {",
-      "console.log($0);",
-      "}"
-    ],
+    "body": ["try", "{", "\t$TM_SELECTED_TEXT", "}", "catch (e) {", "console.log($0);", "}"],
     "description": "Wrap selection in try-catch"
   },
   "assign": {
@@ -166,20 +149,12 @@
   },
   "forOwn": {
     "prefix": "forOwn",
-    "body": [
-      "_.forOwn(this.$1, (value, key) => {",
-      "  if (typeof(value) == 'string')",
-      "    $2[key] = value;",
-      "});"
-    ],
+    "body": ["_.forOwn(this.$1, (value, key) => {", "  if (typeof(value) == 'string')", "  $2[key] = value;", "});"],
     "description": "Lodash forOwn"
   },
   "params": {
     "prefix": "params",
-    "body": [
-      "let params = utilsService.prepareParams(this.$1);",
-      "Object.assign(params, { dtType: '$2' });"
-    ],
+    "body": ["let params = utilsService.prepareParams(this.$1);", "Object.assign(params, { dtType: '$2' });"],
     "description": "Prepare params for service call"
   },
   "remapObiect": {
@@ -196,7 +171,7 @@
       "const $1 = ({ data, value }) =>",
       "{",
       "  return data && !data.isTotal ?",
-      "    `<a href='javascript:void(0)' ng-click='vm.$2(\\${data.pos})'>\\${value}</a>` : value;",
+      "  `<a href='javascript:void(0)' ng-click='vm.$2(\\${data.pos})'>\\${value}</a>` : value;",
       "}"
     ],
     "description": "AG-Grid cell renderer with ng-click"
@@ -208,9 +183,19 @@
       "const $1 = ({ data, value }) =>",
       "{",
       "  return data && !data.isTotal ?",
-      "    `<a href='$2' target='_blank'>\\${value}</a>` : value;",
+      "  `<a href='$2' target='_blank'>\\${value}</a>` : value;",
       "}"
     ],
     "description": "AG-Grid cell renderer with href"
+  },
+  "copmment": {
+    "prefix": "comment",
+    "body": ["/*------------------", "\t$TM_SELECTED_TEXT", "------------------*/\n"],
+    "description": "Wrap selection in comments block"
+  },
+  "$timeout": {
+    "prefix": "timeout",
+    "body": ["\\$timeout(() => {", "\t$TM_SELECTED_TEXT", "});"],
+    "description": "$timeout wrapper"
   }
 }

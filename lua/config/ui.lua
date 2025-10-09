@@ -90,11 +90,11 @@ vim.keymap.set({"i", "s"}, "<Tab>", function()
   end
 end, { silent = true })
 
-vim.keymap.set("i", "<C-l>", function()
+--[[ vim.keymap.set("i", "<C-l>", function()
   if require("luasnip").choice_active() then
     require("luasnip").change_choice(1)
   end
-end, { silent = true })
+end, { silent = true }) ]]
 
 vim.keymap.set("s", "<C-\\>", function()
   require("luasnip").expand()

@@ -1,0 +1,82 @@
+{
+  "sort": {
+    "prefix": "sort",
+    "body": ["<xsl:sort select=\"${1:what}\" />"],
+    "description": "<xsl:sort ..."
+  },
+  "valueof": {
+    "prefix": "valueof",
+    "body": ["<xsl:value-of select=\"${1:what}\" />"],
+    "description": "<xsl:value-of ..."
+  },
+  "apply": {
+    "prefix": "apply",
+    "body": ["<xsl:apply-templates select=\"${1:what}\" />"],
+    "description": "<xsl:apply-templates ..."
+  },
+  "param": {
+    "prefix": "param",
+    "body": ["<xsl:param name=\"${1:name}\"${2: select=\"${3:expr}\"} />"],
+    "description": "<xsl:param ..."
+  },
+  "import": {
+    "prefix": "import",
+    "body": ["<xsl:import href=\"${1:URI}\" />"],
+    "description": "<xsl:import ..."
+  },
+  "include": {
+    "prefix": "include",
+    "body": ["<xsl:include href=\"${1:URI}\" />"],
+    "description": "<xsl:include ..."
+  },
+  "stylesheet": {
+    "prefix": "stylesheet",
+    "body": [
+      "<xsl:stylesheet version=\"1.0\"",
+      "                xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">",
+      "    <xsl:output method=\"xml\" indent=\"yes\"/>",
+      "    <xsl:template match=\"/${1:cursor}\">",
+      "        $2",
+      "    </xsl:template>",
+      "</xsl:stylesheet>"
+    ],
+    "description": "<xsl:stylesheet ..."
+  },
+  "template": {
+    "prefix": "template",
+    "body": ["<xsl:template match=\"${1:match}\">", "    ${2:cursor}", "</xsl:template>"],
+    "description": "<xsl:template match= ..."
+  },
+  "foreach": {
+    "prefix": "foreach",
+    "body": ["<xsl:for-each select=\"${1:match}\">", "    ${2:cursor}", "</xsl:for-each>"],
+    "description": "<xsl:for-each select= ..."
+  },
+  "if": {
+    "prefix": "if",
+    "body": ["<xsl:if test=\"${1:test}\">", "    ${2:cursor}", "</xsl:if>"],
+    "description": "<xsl:if test= ..."
+  },
+  "choose": {
+    "prefix": "choose",
+    "body": [
+      "<xsl:choose>",
+      "    <xsl:when test=\"${1:expr}\">",
+      "        ${2:void}",
+      "    </xsl:when>",
+      "    <xsl:when test=\"${3:expr}\">",
+      "        ${4:void}",
+      "    </xsl:when>",
+      "${5:    <xsl:otherwise>}",
+      "${6:        ${7:cursor}}",
+      "${8:    </xsl:otherwise>}",
+      "</xsl:choose>"
+    ],
+    "description": "<xsl:choose ..."
+  },
+  "when": {
+    "prefix": "when",
+    "body": ["<xsl:when test=\"${1:ex}\">", "    ${2:what}", "</xsl:when>"],
+    "description": "<xsl:when test= ..."
+  }
+}

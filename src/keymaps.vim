@@ -70,5 +70,5 @@ inoremap <C-p> <C-p>
 inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : "\<C-n>" 
 inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>"
 
-inoremap <S-Insert> <C-r>+  " вставка из системного буфера в режиме вставки
-nnoremap <S-Insert> "+p     " вставка в нормальном режиме
+inoremap <S-Insert> <C-r>+
+nnoremap <S-Insert> "+p

@@ -28,6 +28,8 @@ vim.opt.fileencoding = "utf-8"
 vim.opt.fileencodings = "utf-8"
 vim.keymap.set("c", "<S-Insert>", "<C-r>+")
 
+vim.cmd("filetype plugin indent on")
+
 -- Навигация стрелками в wildmenu
 vim.cmd([[
   cnoremap <expr> <Down> wildmenumode() ? "\<C-n>" : "\<Down>"

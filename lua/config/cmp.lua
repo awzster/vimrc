@@ -29,6 +29,10 @@ cmp.setup({
     -- Подтверждение выбора по Enter
     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- ← это ключевая строка
 
+    -- ["<CR>"] = cmp.mapping.confirm({
+    --   behavior = cmp.ConfirmBehavior.Insert,
+    --   select = false,
+    -- }),
     -- Tab используем ТОЛЬКО для прыжков по placeholder'ам (если список скрыт)
     ["<Tab>"] = function(fallback)
       if luasnip.expand_or_jumpable() then

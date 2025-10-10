@@ -47,9 +47,18 @@ vim.keymap.set("n", "<F12>", ":NvimTreeToggle<CR>", { noremap = true, silent = t
 local telescope = require("telescope")
 telescope.setup({
   defaults = {
+    -- Делает поиск нечувствительным к регистру
+    sorting_strategy = "ascending",
+    layout_strategy = "horizontal",
+
     vimgrep_arguments = {
-      "rg","--color=never","--no-heading","--with-filename",
-      "--line-number","--column","--smart-case",
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
     },
     prompt_prefix = "🔍 ",
     selection_caret = "➤ ",

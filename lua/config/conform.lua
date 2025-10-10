@@ -6,11 +6,11 @@ require("conform").setup({
     typescript       = { "eslint_d" },
     typescriptreact  = { "eslint_d" },
     json             = { "prettier" },
-    html             = { "prettier" },
+    --html             = { "prettier" },
     css              = { "prettier" },
-    xml              = { "xmllint" },
-    xsl              = { "xmllint" },
-    xslt             = { "xmllint" },
+    --xml              = { "xmllint" },
+    --xsl              = { "xmllint" },
+    --xslt             = { "xmllint" },
   },
   formatters = {
     xmllint = {

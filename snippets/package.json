@@ -35,6 +35,12 @@
       },
       {
         "language": [
+          "java"
+        ],
+        "path": "./java.json"
+      },
+      {
+        "language": [
           "xsl",
           "xslt"
         ],

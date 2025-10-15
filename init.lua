@@ -25,10 +25,15 @@ vim.cmd("source ~/.config/nvim/src/plugin-config.vim")
 -- 4) общее
 vim.o.completeopt = "menu,menuone,noselect"
 vim.opt.fileencoding = "utf-8"
-vim.opt.fileencodings = "utf-8"
+vim.opt.encoding = 'utf-8'
+
 vim.keymap.set("c", "<S-Insert>", "<C-r>+")
 
-vim.cmd("filetype plugin indent on")
+vim.cmd([[
+  filetype plugin indent on
+  syntax enable
+]])
+--vim.cmd("filetype plugin indent on")
 
 -- Навигация стрелками в wildmenu
 vim.cmd([[
@@ -43,4 +48,5 @@ vim.cmd("colorscheme gruvbox-material")
 if vim.fn.has("gui_running") == 1 then
   vim.opt.guifont = "FiraCode Nerd Font Mono:h17"
 end
+
 

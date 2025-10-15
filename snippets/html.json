@@ -54,16 +54,6 @@
     ],
     "description": "Form row with content"
   },
-  "a-ng-click": {
-    "prefix": "a-ng-click",
-    "body": "<a href=\"javascript:void(0)\" ng-click=\"$1\" title=\"$2\">$3</a>",
-    "description": "ng-click anchor"
-  },
-  "a-href": {
-    "prefix": "a-href",
-    "body": "<a href=\"$1\" target=\"_blank\" title=\"$2\">$3</a>",
-    "description": "External link"
-  },
   "ng-modal": {
     "prefix": "ng-modal",
     "body": [
@@ -269,5 +259,25 @@
       "</span>"
     ],
     "description": "AJAX tooltip with article link"
+  },
+  "a-ng-click": {
+    "prefix": "a-ng-click",
+    "body": ["<a href=\"javascript:void(0)\" ng-click=\"$1\" title=\"$2\">$3</a>"],
+    "description": "ng-click anchor"
+  },
+  "a-href": {
+    "prefix": "a-href",
+    "body": ["<a href=\"$1\" target=\"_blank\" title=\"$2\">$3</a>"],
+    "description": "External link"
+  },
+  "a-href-wrap": {
+    "prefix": "a-href-wrap",
+    "body": ["<a href=\"$1\" target=\"_blank\" title=\"$2\">", "\t$TM_SELECTED_TEXT", "</a>"],
+    "description": "External link"
+  },
+  "a-ng-click-wrap": {
+    "prefix": "a-ng-click-wrap",
+    "body": ["<a href=\"javascript:void(0)\" ng-click=\"$1\" title=\"$2\">", "\t$TM_SELECTED_TEXT", "</a>"],
+    "description": "ng-click anchor"
   }
 }

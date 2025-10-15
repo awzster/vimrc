@@ -21,12 +21,27 @@ M.filename_with_bufnr = function()
 end
 
 M.char_code = function()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0)) -- 1-based
-  local line = vim.api.nvim_get_current_line()
-  local byteidx = vim.str_byteindex(line, col - 1) + 1
-  local cp = utf8.codepoint(line, byteidx)
-  if cp then return string.format("U+%04X", cp) end
-  return ""
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))  -- 1-based row, 0-based col? No: col is 1-based *but* 0 means before first char
+  if col == 0 then
+    return ""
+  end
+
+  -- Get the single character at (row-1, col-1) to (row-1, col)
+  -- Neovim API uses 0-based line indexing!
+  local char_tbl = vim.api.nvim_buf_get_text(0, row - 1, col - 1, row - 1, col, {})
+  local char = char_tbl[1] or ""
+
+  if char == "" then
+    return ""
+  end
+
+  -- Now get codepoint using Vim function
+  local cp = vim.fn.char2nr(char)
+  if cp and cp > 0 then
+    return string.format("U+%04X", cp)
+  else
+    return ""
+  end
 end
 
 return M

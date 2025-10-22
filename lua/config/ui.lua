@@ -40,7 +40,11 @@ require('lualine').setup({
 })
 
 -- nvim-tree
-require("nvim-tree").setup()
+--require("nvim-tree").setup()
+require("nvim-tree").setup({
+  sort_by = "modification_time", -- сортировка по времени изменения
+  -- другие опции...
+})
 vim.keymap.set("n", "<F12>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 
 -- telescope

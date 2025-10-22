@@ -4,6 +4,10 @@ require("nvim-treesitter.configs").setup({
   highlight = { enable = true },
   incremental_selection = { enable = true },
   matchup = { enable = true },
-  indent = { enable = true, disable = { 'xml' } }
+ indent = {
+    enable = true,
+    disable = { "javascript", "typescript" }, -- отключаем для JS/TS
+  },
+ -- indent = { enable = true, disable = { 'xml' } }
 })
 

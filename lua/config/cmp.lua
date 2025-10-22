@@ -11,6 +11,24 @@ local kind_icons = {
 }
 
 cmp.setup({
+  --[[ completion = {
+    autocomplete = function()
+      local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+      local line = vim.api.nvim_get_current_line()
+      if col <= #line then
+        local next_char = line:sub(col, col)
+        if next_char:match("[%w_]") then
+          return false
+        end
+      end
+      return true
+    end,
+  }, ]]
+
+ completion = {
+    autocomplete = false,
+    completeopt = "menu,menuone,noinsert",
+  },
   snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
 
   window = {
@@ -18,22 +36,102 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   -- Автоматически показывать при вводе
-  completion = {
+  --[[ completion = {
     completeopt = "menu,menuone,noinsert",
-  },
+  }, ]]
 
-  mapping = cmp.mapping.preset.insert({
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
+mapping = cmp.mapping.preset.insert({
 
-    -- Подтверждение выбора по Enter
-    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- ← это ключевая строка
+    ["<C-\\>"] = cmp.mapping(function()
+      -- Сначала попробуем получить сниппеты
+      cmp.complete({
+        config = {
+          sources = { { name = "luasnip" } }
+        }
+      })
 
-    -- ["<CR>"] = cmp.mapping.confirm({
-    --   behavior = cmp.ConfirmBehavior.Insert,
-    --   select = false,
-    -- }),
-    -- Tab используем ТОЛЬКО для прыжков по placeholder'ам (если список скрыт)
+      -- Через короткую задержку проверим, есть ли ровно один кандидат
+      vim.defer_fn(function()
+        if cmp.visible() then
+          local entries = cmp.get_entries()
+          if #entries == 1 then
+            cmp.confirm({ select = true })
+          end
+        end
+      end, 10) -- 10ms достаточно, чтобы cmp обновил список
+    end, { "i", "s" }),
+    --[[ ["<C-\\>"] = cmp.mapping(function()
+      cmp.complete({
+        config = {
+          sources = {
+            { name = "luasnip" }
+          }
+        }
+      })
+    end, { "i", "s" }), ]]
+
+    ["<C-n>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+        vim.defer_fn(function()
+          if cmp.visible() then
+            local entries = cmp.get_entries()
+            if #entries == 1 then
+              cmp.confirm({ select = true })
+            end
+          else
+            fallback()
+          end
+        end, 10)
+      end
+    end, { "i", "s" }),
+
+    ["<C-p>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        cmp.complete()
+        vim.defer_fn(function()
+          if cmp.visible() then
+            local entries = cmp.get_entries()
+            if #entries == 1 then
+              cmp.confirm({ select = true })
+            end
+          else
+            fallback()
+          end
+        end, 10)
+      end
+    end, { "i", "s" }),
+    -- Ручной вызов автодополнения + навигация
+    --[[ ["<C-n>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+        if not cmp.visible() then
+          fallback()
+        end
+      end
+    end, { "i", "s" }),
+
+    ["<C-p>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        cmp.complete()
+        if not cmp.visible() then
+          fallback()
+        end
+      end
+    end, { "i", "s" }), ]]
+
+    -- Подтверждение выбора
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+
+    -- Tab для прыжков по snippet'ам
     ["<Tab>"] = function(fallback)
       if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
@@ -42,6 +140,20 @@ cmp.setup({
       end
     end,
   }),
+  --[[ mapping = cmp.mapping.preset.insert({
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+
+    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- ← это ключевая строка
+
+    ["<Tab>"] = function(fallback)
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+  }), ]]
 
   sources = cmp.config.sources({
     { name = "luasnip",  priority = 1000 },
@@ -54,6 +166,20 @@ cmp.setup({
     { name = "nvim_lsp", priority = 500 },
     { name = "path",     priority = 250 },
   }),
+
+ filter = function(entry, ctx)
+    -- Сначала стандартная фильтрация по префиксу
+    if not cmp.filter.prefix(entry, ctx) then
+      return false
+    end
+    -- Дополнительно: не показывать слишком короткие или странные метки
+    local label = entry:get_completion_item().label
+    if #label < 2 or label:match("^[%s%p]+$") then
+      return false
+    end
+    return true
+  end,
+
   formatting = {
     format = function(entry, vim_item)
       vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "", vim_item.kind)
@@ -96,5 +222,5 @@ cmp.setup({
 })
 
 -- UX для popup
-vim.o.completeopt = "menu,menuone,noselect"
+--vim.o.completeopt = "menu,menuone,noselect"
 

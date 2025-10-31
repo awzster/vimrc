@@ -49,4 +49,3 @@ if vim.fn.has("gui_running") == 1 then
   vim.opt.guifont = "FiraCode Nerd Font Mono:h17"
 end
 
-

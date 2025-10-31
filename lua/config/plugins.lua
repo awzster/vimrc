@@ -38,6 +38,12 @@ require("lazy").setup({
   -- diagnostics
   --{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
   { "lsp_lines.nvim" },
+  --[[ {
+    "lsp_lines.nvim",
+    config = function()
+      require("diagnostics")
+    end,
+  }, ]]
 
   -- форматирование
   { "stevearc/conform.nvim", event = "VeryLazy" },
@@ -47,61 +53,79 @@ require("lazy").setup({
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason-lspconfig.nvim", dependencies = { "mason.nvim", "nvim-lspconfig" } },
 
-{
-  "L3MON4D3/LuaSnip",
-  -- Убираем зависимость от friendly-snippets
-  config = function()
-    require("luasnip").config.setup({
-      enable_autosnippets = true,
-      -- Опционально: сохранять выделение при раскрытии
-      store_selection_keys = "<C-\\>", -- или ваша клавиша
-    })
+  {
+    "L3MON4D3/LuaSnip",
+    -- Убираем зависимость от friendly-snippets
+    config = function()
+      require("luasnip").config.setup({
+        enable_autosnippets = true,
+        -- Опционально: сохранять выделение при раскрытии
+        store_selection_keys = "<C-\\>", -- или ваша клавиша
+      })
 
-    -- Загружаем только сниппеты из ~/.config/nvim/snippets
-    require("luasnip.loaders.from_vscode").lazy_load({
-      paths = { vim.fn.stdpath("config") .. "/snippets" }
-    })
-  end
-},
+      -- Загружаем только сниппеты из ~/.config/nvim/snippets
+      require("luasnip.loaders.from_vscode").lazy_load({
+        paths = { vim.fn.stdpath("config") .. "/snippets" }
+      })
+    end
+  },
 
- -- Completion
- {
-   "hrsh7th/nvim-cmp",
-   dependencies = {
-     "L3MON4D3/LuaSnip",           -- уже объявлен выше, но можно повторить
-     "saadparwaiz1/cmp_luasnip",   -- источник для сниппетов
-     "hrsh7th/cmp-nvim-lsp",       -- LSP-дополнение
-     "hrsh7th/cmp-path",           -- пути
-     "hrsh7th/cmp-buffer",         -- слова из буфера
-     "hrsh7th/cmp-cmdline",        -- для командной строки (опционально)
-   },
-   config = function()
-     require("config.cmp")
-   end,
- },
- {
-   "numToStr/Comment.nvim",
-   opts = {
-     --- Включаем поддержку блочных комментариев
-     --- и настраиваем поведение по умолчанию
-     toggler = {
-       line = "gcc",      -- построчный комментарий
-       block = "gbc",     -- блочный комментарий
-     },
-     opleader = {
-       line = "gc",
-       block = "gb",
-     },
-     --- Главное: включаем автоопределение — блок для выделения >1 строки
-     block_comment_enabled = true,
-     --- Опционально: всегда использовать блок при визуальном выделении
-     --- (это то, что тебе нужно!)
-     comment_empty = false,
-   },  config = function(_, opts)
-     require("Comment").setup(opts)
-   end,
- },
+  -- Completion
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "L3MON4D3/LuaSnip",           -- уже объявлен выше, но можно повторить
+      "saadparwaiz1/cmp_luasnip",   -- источник для сниппетов
+      "hrsh7th/cmp-nvim-lsp",       -- LSP-дополнение
+      "hrsh7th/cmp-path",           -- пути
+      "hrsh7th/cmp-buffer",         -- слова из буфера
+      "hrsh7th/cmp-cmdline",        -- для командной строки (опционально)
+    },
+    config = function()
+      require("config.cmp")
+    end,
+  },
+  {
+    "numToStr/Comment.nvim",
+    opts = {
+      --- Включаем поддержку блочных комментариев
+      --- и настраиваем поведение по умолчанию
+      toggler = {
+        line = "gcc",      -- построчный комментарий
+        block = "gbc",     -- блочный комментарий
+      },
+      opleader = {
+        line = "gc",
+        block = "gb",
+      },
+      --- Главное: включаем автоопределение — блок для выделения >1 строки
+      block_comment_enabled = true,
+      --- Опционально: всегда использовать блок при визуальном выделении
+      --- (это то, что тебе нужно!)
+      comment_empty = false,
+    },  config = function(_, opts)
+      require("Comment").setup(opts)
+    end,
+  },
 
+  {
+    "jackMort/ChatGPT.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      adapter = "ollama",
+      ollama = {
+        host = "http://localhost:11434",
+        model = "qwen:4b",
+      },
+    },
+    config = function(_, opts)
+print("Using adapter:", opts.adapter)  -- ← это напечатает в :messages
+      require("chatgpt").setup(opts)
+    end,
+  }
 
 })
 

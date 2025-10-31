@@ -11,12 +11,12 @@ local function toggle_lsp_lines()
 end
 vim.keymap.set("n", "<leader>dl", toggle_lsp_lines, { desc = "Toggle diagnostics lines/text" })
 
--- (опционально) глобальный тумблер show/hide
--- local diagnostics_enabled = true
--- vim.keymap.set("n", "<Leader>f", function()
---   diagnostics_enabled = not diagnostics_enabled
---   if diagnostics_enabled then vim.diagnostic.show() else vim.diagnostic.hide() end
--- end, { desc = "Toggle diagnostics" })
+ --(опционально) глобальный тумблер show/hide
+ local diagnostics_enabled = true
+ vim.keymap.set("n", "<Leader>f", function()
+   diagnostics_enabled = not diagnostics_enabled
+   if diagnostics_enabled then vim.diagnostic.show() else vim.diagnostic.hide() end
+ end, { desc = "Toggle diagnostics" })
 
 local severity_icons = {
   [vim.diagnostic.severity.ERROR] = "",

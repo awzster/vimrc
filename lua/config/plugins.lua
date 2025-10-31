@@ -36,7 +36,8 @@ require("lazy").setup({
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons" } },
 
   -- diagnostics
-  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
+  --{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
+  { "lsp_lines.nvim" },
 
   -- форматирование
   { "stevearc/conform.nvim", event = "VeryLazy" },
@@ -100,5 +101,7 @@ require("lazy").setup({
      require("Comment").setup(opts)
    end,
  },
+
+
 })
 

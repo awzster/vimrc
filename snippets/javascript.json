@@ -24,6 +24,11 @@
     "body": [".map(el => {", "\t$1", "});"],
     "description": ".map()"
   },
+  "join": {
+    "prefix": ".join",
+    "body": [".map(el => el.id).join(',')"],
+    "description": ".join()"
+  },
   "filter": {
     "prefix": ".filter",
     "body": ".filter(el => { return el.id == $1; });",

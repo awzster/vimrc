@@ -2,7 +2,7 @@
   "table": {
     "prefix": "table",
     "body": [
-      "<div class=\"table\" style=\"max-height: 30vh; overflow-y: auto;\">",
+      "<div class=\"table table-wrapper\">",
       "  <table>",
       "    <thead>",
       "      <tr>",
@@ -59,8 +59,8 @@
     "body": [
       "<modal-dialog show=\"vm.$1dlgShow\" dialog-title=\"$2\" ng-modal-class=\"ng-modal-md\" ng-cloak>",
       "  <form name=\"vm.$1Form\" ng-submit=\"vm.$1Submit()\">",
-      "    <div class=\"panel-sm panel-default\" style=\"max-height: calc(100vh - 10rem); overflow-y: auto;\">",
-      "      <div class=\"panel-body\" style=\"padding: 6px;\">",
+      "    <div class=\"panel-sm panel-default panel-grid\">",
+      "      <div class=\"panel-body\">",
       "      </div>",
       "      <div class=\"panel-footer text-right\">",
       "        <button class=\"btn btn-primary\" type=\"submit\">$3</button>",

@@ -23,7 +23,7 @@ vim.cmd("source ~/.config/nvim/src/keymaps.vim")
 vim.cmd("source ~/.config/nvim/src/plugin-config.vim")
 
 -- 4) общее
-vim.o.completeopt = "menu,menuone,noselect"
+--vim.o.completeopt = "menu,menuone,noselect"
 vim.opt.fileencoding = "utf-8"
 vim.opt.encoding = 'utf-8'
 

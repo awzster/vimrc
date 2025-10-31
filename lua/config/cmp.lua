@@ -163,7 +163,7 @@ mapping = cmp.mapping.preset.insert({
         get_bufnrs = function() return vim.api.nvim_list_bufs() end,
       },
     },
-    { name = "nvim_lsp", priority = 500 },
+--    { name = "nvim_lsp", priority = 500 },
     { name = "path",     priority = 250 },
   }),
 

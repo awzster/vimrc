@@ -107,25 +107,5 @@ require("lazy").setup({
       require("Comment").setup(opts)
     end,
   },
-
-  {
-    "jackMort/ChatGPT.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {
-      adapter = "ollama",
-      ollama = {
-        host = "http://localhost:11434",
-        model = "qwen:4b",
-      },
-    },
-    config = function(_, opts)
-print("Using adapter:", opts.adapter)  -- ← это напечатает в :messages
-      require("chatgpt").setup(opts)
-    end,
-  }
-
 })
 

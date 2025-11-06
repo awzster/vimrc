@@ -60,15 +60,6 @@ mapping = cmp.mapping.preset.insert({
         end
       end, 10) -- 10ms достаточно, чтобы cmp обновил список
     end, { "i", "s" }),
-    --[[ ["<C-\\>"] = cmp.mapping(function()
-      cmp.complete({
-        config = {
-          sources = {
-            { name = "luasnip" }
-          }
-        }
-      })
-    end, { "i", "s" }), ]]
 
     ["<C-n>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -105,28 +96,6 @@ mapping = cmp.mapping.preset.insert({
         end, 10)
       end
     end, { "i", "s" }),
-    -- Ручной вызов автодополнения + навигация
-    --[[ ["<C-n>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        cmp.complete()
-        if not cmp.visible() then
-          fallback()
-        end
-      end
-    end, { "i", "s" }),
-
-    ["<C-p>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        cmp.complete()
-        if not cmp.visible() then
-          fallback()
-        end
-      end
-    end, { "i", "s" }), ]]
 
     -- Подтверждение выбора
     ["<CR>"] = cmp.mapping.confirm({ select = true }),
@@ -140,20 +109,6 @@ mapping = cmp.mapping.preset.insert({
       end
     end,
   }),
-  --[[ mapping = cmp.mapping.preset.insert({
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
-
-    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- ← это ключевая строка
-
-    ["<Tab>"] = function(fallback)
-      if luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end,
-  }), ]]
 
   sources = cmp.config.sources({
     { name = "luasnip",  priority = 1000 },
@@ -164,7 +119,7 @@ mapping = cmp.mapping.preset.insert({
       },
     },
 --    { name = "nvim_lsp", priority = 500 },
-    { name = "path",     priority = 250 },
+--    { name = "path",     priority = 250 },
   }),
 
  filter = function(entry, ctx)

@@ -16,7 +16,7 @@
   },
   "then": {
     "prefix": ".then",
-    "body": [".then($1 => {", "\t$2", "});"],
+    "body": [".then((${1:data} => {", "\n\t$2", "});"],
     "description": ".then()"
   },
   "map": {
@@ -58,11 +58,7 @@
   },
   "get (service call)": {
     "prefix": "get",
-    "body": [
-      "return mainService.httpGet({ dtType: '${1}' }).then(data => {",
-      "  ${2:this = $.extend(this, data);}",
-      "});"
-    ],
+    "body": ["return mainService.httpGet({ dtType: '${1}' }).then(data => {", "  Object.assign(this, data)", "});"],
     "description": "HTTP GET + extend this"
   },
   "chain (batch update)": {
@@ -193,7 +189,7 @@
     ],
     "description": "AG-Grid cell renderer with href"
   },
-  "copmment": {
+  "commment": {
     "prefix": "comment",
     "body": ["/*------------------", "\t$TM_SELECTED_TEXT", "------------------*/\n"],
     "description": "Wrap selection in comments block"
@@ -202,5 +198,10 @@
     "prefix": "timeout",
     "body": ["\\$timeout(() => {", "\t$TM_SELECTED_TEXT", "});"],
     "description": "$timeout wrapper"
+  },
+  "eslint-disabe": {
+    "prefix": "eslint-disable",
+    "body": ["/* eslint-disabe */", "\t$TM_SELECTED_TEXT", "});", "/* eslint-enable */", "});"],
+    "description": "$eslint-disable wrapper"
   }
 }

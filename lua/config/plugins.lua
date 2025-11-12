@@ -27,7 +27,17 @@ require("lazy").setup({
   -- темы
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   { "sainnhe/everforest", lazy = true, priority = 1000 },
-  { "sainnhe/gruvbox-material", lazy = false, priority = 1000 },
+  { "sainnhe/gruvbox-material",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      --vim.g.gruvbox_material_background = "medium" -- или "hard", "soft"
+      vim.cmd("colorscheme gruvbox-material")
+
+      -- Сразу задаём PmenuSel
+      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#ff0000", bold = true })
+    end,
+  },
   { "tanvirtin/monokai.nvim", lazy = true, priority = 1000 },
 
   -- UI
@@ -38,12 +48,6 @@ require("lazy").setup({
   -- diagnostics
   --{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
   { "lsp_lines.nvim" },
-  --[[ {
-    "lsp_lines.nvim",
-    config = function()
-      require("diagnostics")
-    end,
-  }, ]]
 
   -- форматирование
   { "stevearc/conform.nvim", event = "VeryLazy" },

@@ -49,3 +49,14 @@ if vim.fn.has("gui_running") == 1 then
   vim.opt.guifont = "FiraCode Nerd Font Mono:h17"
 end
 
+-- Определяем кастомные группы подсветки для cmp
+vim.api.nvim_set_hl(0, "CmpPmenu", {
+  bg = "#3c3836",  -- фон меню (как bg у gruvbox-material medium)
+  fg = "#d4be98",  -- цвет текста
+})
+
+vim.api.nvim_set_hl(0, "CmpPmenuSel", {
+  bg = "#3399cc",  -- ваш акцентный цвет
+  fg = "#ffffff",  -- белый текст
+  bold = true,
+})

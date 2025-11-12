@@ -57,14 +57,14 @@
   "ng-modal": {
     "prefix": "ng-modal",
     "body": [
-      "<modal-dialog show=\"vm.$1dlgShow\" dialog-title=\"$2\" ng-modal-class=\"ng-modal-md\" ng-cloak>",
+      "<modal-dialog show=\"vm.$1DlgShow\" dialog-title=\"$2\" ng-modal-class=\"ng-modal-md\" ng-cloak>",
       "  <form name=\"vm.$1Form\" ng-submit=\"vm.$1Submit()\">",
       "    <div class=\"panel-sm panel-default panel-grid\">",
       "      <div class=\"panel-body\">",
       "      </div>",
       "      <div class=\"panel-footer text-right\">",
       "        <button class=\"btn btn-primary\" type=\"submit\">$3</button>",
-      "        <button class=\"btn btn-default\" ng-click=\"vm.$1 = false\" type=\"button\">Close</button>",
+      "        <button class=\"btn btn-default\" ng-click=\"vm.$1DlgShow = false\" type=\"button\">Close</button>",
       "      </div>",
       "    </div>",
       "  </form>",
